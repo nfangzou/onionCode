@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "aes-js": "^3.1.2",
+    "sweetalert": "^2.1.2",
+    "tbc-contract": "^1.1.14",
+    "tbc-lib-js": "^1.0.21",
+    "ts-loader": "^9.5.1",
+    "turing-wallet-provider": "^1.2.8",
+    "typescript": "^5.0.4",
+    "vconsole": "^3.15.1"
+  }
+}
