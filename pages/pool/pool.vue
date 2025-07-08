@@ -411,7 +411,7 @@
 						},
 						success: (res) => {
 							if(res.statusCode == 200) {
-								if(res.data.ft_lp_balance != 0) {
+								if(res.data.ft_lp_balance) {
 									newAllPool.push({
 										"ft_lp_balance":res.data.ft_lp_balance,
 										"ft_a_balance":res.data.ft_a_balance,
