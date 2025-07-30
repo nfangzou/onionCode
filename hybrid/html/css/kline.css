@@ -3,12 +3,13 @@
 	padding: 0;
 }
 html{
-	background-color: #131623;
+	background-color: #fff;
 }
 #app{
 	/* height: 100vh; */
-	/* width: 100vw; */
-	width: 100%;
+	width: 100vw;
+	height: auto;
+	border-radius: 10px;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
@@ -329,7 +330,7 @@ html{
 
 .charts {
 	width: 100vw;
-	height: 420px;
+	height: 280px;
 }
 
 .charts-label {
@@ -397,7 +398,7 @@ html{
 }
 .chartsKline{
 	width: 60px;
-	height: 360px;
+	height: 260px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;

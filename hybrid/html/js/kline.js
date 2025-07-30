@@ -2,10 +2,11 @@
 // 假设 dates、data、volumes 等变量在 mock.js 里已定义
 window.onload = function() {
   var myChart = echarts.init(document.getElementById('main'));
+  
   var upColor = '#03ad91';
   var downColor = '#dd345b';
   var option = {
-    backgroundColor: '#0d1723',
+    backgroundColor: '#fff',
     grid: [
       { top: '5%', left: 20, right: 20, height: '88%' },
       { top: '85%', left: 20, right: 20, height: '10%' }
@@ -195,7 +196,7 @@ window.onload = function() {
     yAxisDiv.innerHTML = '';
     const { min: realMin, max: realMax } = getVisibleRange(data, range.startIndex, range.endIndex);
     for (let i = 0; i <= steps; i++) {
-      const val = ((max - min) * (1 - i / steps) + min).toFixed(2);
+      const val = ((max - min) * (1 - i / steps) + min).toFixed(0);
       const tick = document.createElement('div');
       tick.style.textAlign = 'right';
       tick.style.width = '100%';

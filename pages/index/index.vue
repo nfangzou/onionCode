@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<view class="webView">
-			<web-view src="/hybrid/html/local.html" style="width: 100%; height: 500upx;"></web-view>
+			<web-view src="/hybrid/html/local.html" style="width: 100%; height: 600upx;border-radius: 30upx;"></web-view>
 		</view>
 		<view class="webCenterBox">
 			<view class="webLeft">
@@ -2411,9 +2411,10 @@
 	}
 	.webView{
 		// height: 400upx;
-		position: relative;
+		margin: 30upx 30upx;
 		height: 600upx;
-		background-color: red;
-		
+		position: relative;
+		border-radius: 30upx;
+		overflow: hidden;
 	}
 </style>

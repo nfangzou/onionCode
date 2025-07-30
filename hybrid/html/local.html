@@ -3,13 +3,14 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>K线</title>
 		<link rel="stylesheet" type="text/css" href="css/kline.css"/>
 	</head>
 
 	<body>
-		<div style="display: flex; flex-direction: row; align-items: stretch;">
-			<div id="main" class="charts" style="flex: 1; height: 400px;"></div>
+		<div style="display: flex; flex-direction: row; align-items: stretch; border-radius: 10px;">
+			<div class="charts">
+				<canvas id="main" height="280px"></canvas>
+			</div>
 			<div id="custom-yaxis" class="chartsKline"></div>
 		</div>
 		<script type="text/javascript" src="js/echarts.min.js"></script>
