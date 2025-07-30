@@ -198,9 +198,6 @@
 				myAddress: '',
 				tabIndex: 0,
 				DawkoinBalanceNum: 0,
-				slipData: ['0.1', '0.5', '1.0'],
-				slipCrrent: 0,
-				selfSlip: '',
 				toCoinNum: '',
 				fromCoinNum: '',
 				lpNum: 0,
@@ -270,9 +267,6 @@
 					this.myAddress = uni.getStorageSync('walletAddress');
 					this.getCoinBalance(this.fromCur,'from')
 				}
-			},
-			clickSlip(val) {
-				this.slipCrrent = val;
 			},
 			async getPoolInCoin(id) {
 				const poolUse = new poolNFT({txidOrParams: id, network:this.network});
@@ -369,7 +363,6 @@
 						}];
 						const { txid, rawtx } = await window.Turing.sendTransaction(params);
 						console.log(txid)
-						console.log(rawtx)
 						if(txid) {
 							this.unloadCoinID();
 						}
@@ -445,7 +438,6 @@
 				}
 			},
 			unloadCoinID() {
-				let lpNowWay = this.slipCrrent == 3?this.selfSlip:this.slipData[this.slipCrrent];
 				try {
 					uni.request({
 						url: (this.selectCoinPool.pool_version == 2?this.localApi:this.localApiV1) + 'newPool',
@@ -614,9 +606,7 @@
 				}, 1000);
 			},
 			backGo() {
-				uni.navigateTo({
-				   url: './pool'
-				})
+				uni.navigateBack()
 			},
 			mobileFilter1(val) {
 				let inNumber = val.toString();
@@ -652,11 +642,11 @@
 			}
 		
 			.centerBox {
-				width: 70%;
+				width: 50%;
 				margin: 40rpx auto;
 				box-sizing: border-box;
 				background-color: #fff;
-			// margin: 40rpx 30rpx 0 30rpx;
+				box-shadow: 0px 4rpx 28px rgba(88,86,218,0.16);
 				border: 2rpx solid #e5e5e5;
 				border-radius: 20rpx;
 				.bodyList{
@@ -672,7 +662,7 @@
 					margin-bottom: 30upx;
 					padding: 0 28rpx;
 					height: 112rpx;
-					background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+					background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 					border-radius: 30rpx 30rpx 0 0;
 					.back {
 						image {
@@ -754,7 +744,7 @@
 						
 						.inputBody {
 							height: 169rpx;
-							background: rgba(115,40,228,0.1);
+							background: rgba(102,82,217,0.05);
 							border-radius: 30rpx;
 							padding-right: 45rpx;
 						
@@ -935,7 +925,7 @@
 						color: gray;
 					}
 					.oneRight{
-						color: #00dea1;
+						color: #6652D9;
 					}
 				}
 				.btnBootom{
@@ -944,10 +934,10 @@
 					margin-top: 50rpx;
 					.btn{
 						width: 100%;
-						height: 100rpx;
-						line-height: 100rpx;
+						height: 84rpx;
+						line-height: 84rpx;
 						text-align: center;
-						background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+						background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 						border-radius: 42rpx;
 						color: #fff;
 					}
@@ -1031,7 +1021,7 @@
 		}
 		
 		.shareBtn {
-			background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+			background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 			padding: 30upx;
 			margin-top: 56upx;
 			border-radius: 42upx;
@@ -1097,6 +1087,7 @@
 				max-width: 750rpx;
 				margin: 40rpx 30rpx 0 30rpx;
 				border: 2rpx solid #e5e5e5;
+				box-shadow: 0px 4rpx 28px rgba(88,86,218,0.16);
 				border-radius: 20rpx;
 				.bodyList{
 					padding: 0 28rpx;
@@ -1111,7 +1102,7 @@
 					margin-bottom: 30upx;
 					padding: 0 28rpx;
 					height: 112rpx;
-					background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+					background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 					border-radius: 30rpx 30rpx 0 0;
 					.back {
 						image {
@@ -1193,7 +1184,7 @@
 						
 						.inputBody {
 							height: 169rpx;
-							background: rgba(115,40,228,0.1);
+							background: rgba(102,82,217,0.05);
 							border-radius: 30rpx;
 							padding-right: 45rpx;
 						
@@ -1374,7 +1365,7 @@
 						color: gray;
 					}
 					.oneRight{
-						color: #00dea1;
+						color: #6652D9;
 					}
 				}
 				.btnBootom{
@@ -1383,10 +1374,10 @@
 					margin-top: 50rpx;
 					.btn{
 						width: 100%;
-						height: 100rpx;
-						line-height: 100rpx;
+						height: 84rpx;
+						line-height: 84rpx;
 						text-align: center;
-						background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+						background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 						border-radius: 42rpx;
 						color: #fff;
 					}
@@ -1470,7 +1461,7 @@
 		}
 		
 		.shareBtn {
-			background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+			background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 			padding: 30upx;
 			margin-top: 56upx;
 			border-radius: 42upx;

@@ -290,7 +290,7 @@
 			padding-bottom: 50upx;
 			padding-top: 120upx;
 			.centerBox {
-				width: 70%;
+				width: 50%;
 				margin: 40rpx auto;
 				box-sizing: border-box;
 				border-radius: 20rpx;
@@ -358,9 +358,10 @@
 				}
 				.coinSetBody{
 					background-color: #fff;
-					border-radius: 20rpx;
+					box-shadow: 0px 4rpx 28rpx rgba(88,86,218,0.16);
+					border-radius: 28px 28px 28px 28px;
 					padding: 40rpx 30rpx;
-					margin-top: 20rpx;
+					margin-top: 40rpx;
 					position: relative;
 					.maskStyle{
 						position: absolute;
@@ -415,7 +416,7 @@
 							height: 90rpx;
 							line-height: 90rpx;
 							text-align: center;
-							background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+							background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 							margin: 30rpx 0;
 							border-radius: 40rpx;
 							color: #fff;
@@ -425,9 +426,10 @@
 							height: 90rpx;
 							line-height: 90rpx;
 							text-align: center;
-							background: linear-gradient( 90deg, #8D60FF 0%, #AF6EFF 100%);
-							color: #fff;
-							border-radius: 40rpx;
+							background: #fff;
+							border: 2px solid #E283E7;
+							color: #9152D9;
+							border-radius: 42rpx;
 							opacity: 0.75;
 						}
 					}
@@ -512,9 +514,10 @@
 				}
 				.coinSetBody{
 					background-color: #fff;
-					border-radius: 20rpx;
+					box-shadow: 0px 4rpx 28rpx rgba(88,86,218,0.16);
+					border-radius: 28px 28px 28px 28px;
 					padding: 40rpx 30rpx;
-					margin-top: 20rpx;
+					margin-top: 40rpx;
 					position: relative;
 					.maskStyle{
 						position: absolute;
@@ -570,7 +573,7 @@
 							height: 90rpx;
 							line-height: 90rpx;
 							text-align: center;
-							background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+							background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 							margin: 30rpx 0;
 							border-radius: 40rpx;
 							color: #fff;
@@ -580,9 +583,10 @@
 							height: 90rpx;
 							line-height: 90rpx;
 							text-align: center;
-							background: linear-gradient( 90deg, #8D60FF 0%, #AF6EFF 100%);
-							color: #fff;
-							border-radius: 40rpx;
+							background: #fff;
+							border: 2px solid #E283E7;
+							color: #9152D9;
+							border-radius: 42rpx;
 							opacity: 0.75;
 						}
 					}

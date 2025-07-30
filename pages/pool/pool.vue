@@ -18,7 +18,9 @@
 				<view class="positions">
 					<view class="left">
 						<view class="item" v-for="(item, index) in tabList" :key="index" :class="poolType==index+1?'poolHovers':''" @click="clickTab(index+1)">
-							{{$t(item)}}
+							<view :class="poolType==index+1?'smallView':''">
+								{{$t(item)}}
+							</view>
 						</view>
 					</view>
 				</view>
@@ -116,7 +118,7 @@
 								FT{{$t('index7')}}
 							</view>  
 							<view class="right">
-								{{item.ft_a_balance/Math.pow(10,6) | numStr}}
+								{{item.ft_a_balance | numStr}}
 							</view>
 						</view>
 						<view class="poolName">
@@ -124,7 +126,7 @@
 								TBC{{$t('index7')}}
 							</view>
 							<view class="right">
-								{{item.tbc_balance/Math.pow(10,6) | numStr}}
+								{{item.tbc_balance | numStr}}
 							</view>
 						</view>
 						<view class="poolName">
@@ -132,7 +134,7 @@
 								LP{{$t('index7')}}
 							</view>
 							<view class="right">
-								{{item.ft_lp_balance/Math.pow(10,item.ftDecimal) | numStr}}
+								{{item.ft_lp_balance | numStr}}
 							</view>
 						</view>
 						<view class="btnList" @click="urlPool('/pages/pool/poolManage','my',item)">
@@ -283,11 +285,7 @@
 					console.log("Please connect wallet!")
 				} else {
 					this.myAddress = uni.getStorageSync('walletAddress');
-					// this.myAddress = "16tCkUg8po8ZciRtcKvGc8sJJhMEwrx8hy";
-					// this.poolTimer = setInterval(() => {
-					// 	this.getAllPool();
-					// 	this.getUserPool();
-					// }, 10000)
+					// this.myAddress = "1GfWSAqqvFJsRc4vvjhkbXVMKno3dRApJH";
 					this.allPage = 1;
 					this.poolAllNowData = [];
 					this.getAllPool();
@@ -297,6 +295,13 @@
 			},
 			getMsg() {
 				this.Init();
+			},
+			clickPup() {
+				swal({
+					title: this.$t('index18'),
+					text: '23423 ' + this.$t('index11') + ' 234324 '+this.$t('newTips1')+'...',
+					icon: "success"
+				})
 			},
 			url(pathVal){
 				uni.navigateTo({
@@ -451,14 +456,14 @@
 								})
 								if(personNum != 0) {
 									onloadData.push({
-										"ft_lp_balance":personNum,
-										"ft_a_balance":(personNum/valData[0].ft_lp_amount)*valData[0].ft_a_amount,
-										"tbc_balance":(personNum/valData[0].ft_lp_amount)*valData[0].tbc_amount,
+										"ft_lp_balance":bignumberJS(personNum).shiftedBy(-6),
+										"ft_a_balance":bignumberJS(personNum).div(valData[0].ft_lp_amount).multipliedBy(valData[0].ft_a_amount).shiftedBy(-6).toFixed(6),
+										"tbc_balance":bignumberJS(personNum).div(valData[0].ft_lp_amount).multipliedBy(valData[0].tbc_amount).shiftedBy(-6).toFixed(6),
 										"contractName":valData[0].contractName,
 										"ftDecimal":valData[0].ftDecimal,
 										"poolContract":valData[0].poolContract,
 										"ftContract":valData[0].FTContract,
-										"pool_version":valData[0].FTContract == "a2d772d61afeac6b719a74d87872b9bbe847aa21b41a9473db066eabcddd86f3"?1:2
+										"pool_version":2
 									})
 								}
 								this.poolUserNowData =  this.poolUserNowData.concat(onloadData);
@@ -496,7 +501,7 @@
 										"ftDecimal":valData[0].ftDecimal,
 										"poolContract":valData[0].poolContract,
 										"ftContract":valData[0].FTContract,
-										"pool_version":valData[0].FTContract == "a2d772d61afeac6b719a74d87872b9bbe847aa21b41a9473db066eabcddd86f3"?1:2
+										"pool_version":1
 									})
 								}
 								this.poolUserNowData1 =  this.poolUserNowData1.concat(onloadData);
@@ -602,8 +607,10 @@
 					// margin:40rpx 0;
 					display: inline-block;
 					background-color: #fff;
+					box-shadow: 0px 4rpx 20rpx rgba(88,86,218,0.2);
 					border-radius: 39rpx;
 					color: #fff;
+					margin-top: 10rpx;
 					margin-bottom: 30rpx;
 					.navBody{
 						padding: 15upx;
@@ -617,7 +624,7 @@
 							.img{
 								width: 70upx;
 								height: 70upx;
-								z-index: 9;
+								z-index: 1;
 								image{
 									width: 100%;
 									height: 100%;
@@ -659,7 +666,7 @@
 						justify-content: space-between;
 						margin-bottom: 20upx;
 						.left{
-							color: #666;
+							color: #161616;
 						}
 						.right{
 							color:#00D085;
@@ -670,7 +677,7 @@
 						justify-content: space-around;
 						align-items: center;
 						margin-top: 50rpx;
-						background: linear-gradient( 90deg, #8D60FF 0%, #AF6EFF 100%);
+						background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 						border-radius: 39rpx;
 						.btn{
 							padding: 20rpx;
@@ -727,7 +734,6 @@
 				align-items: center;
 				justify-content: space-between;
 				.positions{
-					width: 50%;
 					box-sizing: border-box;
 					border-radius: 30upx;
 					display: flex;
@@ -744,7 +750,7 @@
 							align-items: center;
 							font-size: 30upx;
 							color: #525252;
-							padding: 28rpx;
+							padding: 20rpx 28rpx;
 							border-radius: 30upx;
 							margin-right: 30upx;
 						}
@@ -753,7 +759,9 @@
 						}
 						.poolHovers{
 							background-color: #fff;
-							color: #161616;
+							color: #9152D9;
+							border: 2rpx solid #6652D9;
+							border-radius: 42rpx;
 						}
 					}
 					.right{
@@ -786,6 +794,7 @@
 						align-items: center;
 						height: 86rpx;
 						background-color: #fff;
+						box-shadow: 0px 2rpx 10rpx rgba(88,86,218,0.2);
 						margin: 28rpx 0;
 						padding: 0 28rpx;
 						border-radius: 56rpx;
@@ -829,7 +838,9 @@
 					color: #fff;
 					overflow: hidden;
 					background-color: #fff;
+					box-shadow: 0px 4rpx 20rpx rgba(88,86,218,0.2);
 					margin-bottom: 30rpx;
+					margin-top: 10rpx;
 					.navBody{
 						padding: 15upx;
 						display: flex;
@@ -842,7 +853,7 @@
 							.img{
 								width: 70upx;
 								height: 70upx;
-								z-index: 9;
+								z-index: 1;
 								image{
 									width: 100%;
 									height: 100%;
@@ -884,7 +895,7 @@
 						justify-content: space-between;
 						margin-bottom: 20upx;
 						.left{
-							color: #666;
+							color: #161616;
 						}
 						.right{
 							color:#00D085;
@@ -895,7 +906,7 @@
 						justify-content: space-around;
 						align-items: center;
 						margin-top: 50rpx;
-						background: linear-gradient( 90deg, #8D60FF 0%, #AF6EFF 100%);
+						background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 						border-radius: 39rpx;
 						.btn{
 							padding: 20rpx;
@@ -959,7 +970,7 @@
 						// font-size: 30upx;
 						font-size: 24upx;
 						color: #525252;
-						padding: 28rpx;
+						padding: 20rpx 28rpx;
 						border-radius: 30upx;
 						margin-right: 30upx;
 					}
@@ -968,7 +979,9 @@
 					}
 					.poolHovers{
 						background-color: #fff;
-						color: #161616;
+						color: #9152D9;
+						border: 2rpx solid #6652D9;
+						border-radius: 42rpx;
 					}
 				}
 				.right{
@@ -999,6 +1012,7 @@
 				align-items: center;
 				height: 86rpx;
 				background-color: #fff;
+				box-shadow: 0px 2rpx 10rpx rgba(88,86,218,0.2);
 				margin: 28rpx 0;
 				padding: 0 28rpx;
 				border-radius: 56rpx;

@@ -89,6 +89,15 @@
 						decimals: 6,
 						balance: '',
 						logoURI: 'https://dapp.onionswap.info/GrumpyCat.png',
+					},
+					{
+						name: 'DragonHB',
+						symbol: 'DragonHB',
+						address: 'ea37ff1adc8a799150a4330528cc9e8bd0a4ab3af9da249e83caaa094699fa1c',
+						chainId: 1,
+						decimals: 6,
+						balance: '',
+						logoURI: '',
 					}
 				],
 				nowTokenList: []
@@ -180,7 +189,7 @@
 			.title{
 				display: flex;
 				justify-content: space-between;
-				background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+				background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 				padding: 30rpx 28rpx;
 				border-radius: 20rpx 20rpx 0 0;
 				align-items: center;
@@ -205,7 +214,7 @@
 				.inputBox{
 					height: 84rpx;
 					border-radius: 56px 56px 56px 56px;
-					background: rgba(115,40,228,0.1);
+					background: rgba(102,82,217,0.1);
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
@@ -272,7 +281,7 @@
 			.title{
 				display: flex;
 				justify-content: space-between;
-				background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+				background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 				padding: 30rpx 28rpx;
 				border-radius: 20rpx 20rpx 0 0;
 				align-items: center;
@@ -297,7 +306,7 @@
 				.inputBox{
 					height: 84rpx;
 					border-radius: 56px 56px 56px 56px;
-					background: rgba(115,40,228,0.1);
+					background: rgba(102,82,217,0.1);
 					display: flex;
 					justify-content: space-between;
 					align-items: center;

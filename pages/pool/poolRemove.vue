@@ -33,19 +33,19 @@
 							<text style="font-weight: bold;">{{sliderValue}} %</text>
 						</view>
 						<view class="right" style="width: 30%;display: flex;justify-content: right;text-align: right;align-items: center;">
-							<input v-model="inputSlider" @input="inputChangeSlider" type="number" min="1" step="1" :placeholder="$t('pool27')" placeholder-style="color: #e5e5e5;" />
+							<input v-model="inputSlider" @input="inputChangeSlider" type="number" min="1" step="1" :placeholder="$t('pool27')" placeholder-style="color: #e5e5e5;font-size: 26rpx;" />
 							<text style="margin-left: 10rpx;">%</text>
 						</view>
 					</view>
 					<uv-slider v-model="sliderValue" @input="slideChange" step="1" backgroundColor="rgba(255, 255, 255, 0.4)" min="0" max="100"></uv-slider>
 				</view>
 				
-				<view class="infoBox" style="background: linear-gradient( 90deg, #8D60FF 0%, #AF6EFF 100%);">
+				<view class="infoBox" style="background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);">
 					<view class="top1">
 						<text>TBC</text>
 						<text>{{tbcMoveNum}}</text>
 					</view>
-					<view class="top1">
+					<view class="top1" style="margin-bottom: 5rpx;">
 						<text>{{poolInfo.contractName}}</text>
 						<text>{{ftMoveNum}}</text>
 					</view>
@@ -245,8 +245,8 @@
 						nft_contract_address: this.poolInfo.poolContract,
 						poolNFT_version: this.manageGoInfo.pool_version
 					}];
-					console.log(params)
 					const { txid, rawtx } = await window.Turing.sendTransaction(params);
+					console.log(txid)
 					if(txid) {
 						this.$refs.loading.close();
 						swal({
@@ -254,7 +254,6 @@
 							icon: "success",
 						})
 					}
-					console.log(txid)
 				} catch (error) {
 					this.$refs.loading.close();
 					swal({
@@ -273,6 +272,7 @@
 						poolNFT_version: this.manageGoInfo.pool_version
 					}];
 					const { txid, rawtx } = await window.Turing.sendTransaction(params);
+					console.log(txid)
 					if(txid) {
 						this.$refs.loading.close();
 						swal({
@@ -280,8 +280,8 @@
 							icon: "success",
 						})
 					}
-					console.log(txid)
 				} catch (error) {
+					console.log(error)
 					this.$refs.loading.close();
 					swal({
 						title: error,
@@ -328,7 +328,6 @@
 				this.$refs.popup2.close();
 			},
 			async clickSupply() {
-				console.log(this.manageGoInfo.pool_version)
 				this.$refs.loading.open();
 				try {
 					const params = [{
@@ -339,12 +338,8 @@
 						poolNFT_version: this.manageGoInfo.pool_version
 					}];
 					const { txid, rawtx } = await window.Turing.sendTransaction(params);
-					if(txid == null) {
-						swal({
-							title: 'txid is null',
-							icon: "error",
-						})
-					} else{
+					console.log(txid)
+					if(txid) {
 						this.$refs.loading.close();
 						this.$refs.popup2.close();
 						this.getNowPoolInfo();
@@ -352,9 +347,14 @@
 							title: this.$t('pool11') + this.$t('Success'),
 							icon: "success",
 						})
+					} else{
+						this.$refs.loading.close();
+						this.stausMerge = true;
+						swal({
+							title: 'txid is null',
+							icon: "error",
+						})
 					}
-					console.log("txid"+txid)
-					console.log("rawtx"+rawtx)
 				} catch (error) {
 					this.$refs.loading.close();
 					this.$refs.popup2.close();
@@ -397,275 +397,549 @@
 </script>
 
 <style lang="less" scoped>
-	.content {
-		width: 100%;
-		height: auto;
-		min-height: 100vh;
-		box-sizing: border-box;
-		position: relative;
-		padding-bottom: 30upx;
-		padding-top: 140rpx;
-		.backTitle {
-			margin: 38rpx 44rpx;
-
-			image {
-				width: 60rpx;
-				height: 54rpx;
+	@media all and (min-width: 700px) and (max-width: 2880px){
+		.content {
+			width: 100%;
+			height: auto;
+			min-height: 100vh;
+			box-sizing: border-box;
+			position: relative;
+			padding-bottom: 30upx;
+			padding-top: 140rpx;
+			.backTitle {
+				margin: 38rpx 44rpx;
+		
+				image {
+					width: 60rpx;
+					height: 54rpx;
+				}
+			}
+			.centerBox{
+				border: 2rpx solid #e5e5e5;
+				border-radius: 20rpx;
+				width: 50%;
+				margin: 40rpx auto;
+				.poolTitle {
+					position: relative;
+					text-align: center;
+					margin-bottom: 30upx;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					margin-bottom: 30upx;
+					padding: 0 28rpx;
+					height: 112rpx;
+					background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
+					border-radius: 30rpx 30rpx 0 0;
+					.back {
+						image {
+							width: 56upx;
+							height: 56upx;
+						}
+					}
+					.title {
+						color: #fff;
+					}
+					.rightN{
+						width: 56rpx;
+						display: flex;
+						justify-content: right;
+						image {
+							width: 32rpx;
+							height: 32rpx;
+						}
+					}
+				}
+				.outLP{
+					margin-top: 27rpx;
+					padding: 48rpx;
+					.titleBox{
+						color: #161616;
+						font-weight: bold;
+						font-size: 36rpx;
+					}
+					.infoBox{
+						margin-top: 30rpx;
+						padding: 25rpx 16rpx;
+						background: linear-gradient( 270deg, #6652D9 0%, #E283E7 55%, #F4CDCD 100%);
+						border-radius: 10rpx;
+						.top1{
+							display: flex;
+							justify-content: space-between;
+							margin-bottom: 31rpx;
+							color: #fff;
+							font-size: 28rpx;
+							font-weight: bold;
+						}
+					}
+					.endingBox{
+						margin: 34rpx 0;
+						color: #161616;
+						font-size: 30rpx;
+					}
+					.btnGo2{
+						display: flex;
+						justify-content: center;
+						margin-top: 80rpx;
+						margin-bottom: 40rpx;
+						.btn{
+							width: 357rpx;
+							height: 90rpx;
+							line-height: 90rpx;
+							text-align: center;
+							color: #fff;
+							font-size: 36rpx;
+							font-weight: bold;
+							background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
+							border-radius: 50rpx;
+						}
+					}
+				}
 			}
 		}
-
-		.centerBox{
-			margin: 40rpx 30rpx 0 30rpx;
-			border: 2rpx solid #e5e5e5;
+		
+		.maskRe {
+			width: 550rpx;
+			padding: 20rpx;
 			border-radius: 20rpx;
-			.poolTitle {
-				position: relative;
-				text-align: center;
-				margin-bottom: 30upx;
+			border: 2rpx solid #000;
+			background-color: #fff;
+			.title{
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				margin-bottom: 30upx;
-				padding: 0 28rpx;
-				height: 112rpx;
-				background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
-				border-radius: 30rpx 30rpx 0 0;
-				.back {
-					image {
-						width: 56upx;
-						height: 56upx;
-					}
-				}
-				.title {
-					color: #fff;
-				}
-				.rightN{
-					width: 56rpx;
-					display: flex;
-					justify-content: right;
-					image {
-						width: 32rpx;
-						height: 32rpx;
-					}
-				}
-			}
-			.outLP{
-				margin-top: 27rpx;
-				padding: 28rpx;
-				.titleBox{
-					color: #161616;
-					font-weight: bold;
-					font-size: 36rpx;
-				}
-				.infoBox{
-					margin-top: 30rpx;
-					padding: 25rpx 16rpx;
-					background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
-					border-radius: 10rpx;
-					.top1{
-						display: flex;
-						justify-content: space-between;
-						margin-bottom: 31rpx;
-						color: #fff;
-						font-size: 28rpx;
-						font-weight: bold;
-					}
-				}
-				.endingBox{
-					margin: 34rpx 0;
-					color: #161616;
-					font-size: 30rpx;
-				}
-				.btnGo2{
-					display: flex;
-					justify-content: center;
-					margin-top: 80rpx;
-					margin-bottom: 40rpx;
-					.btn{
-						width: 357rpx;
-						height: 90rpx;
-						line-height: 90rpx;
-						text-align: center;
-						color: #fff;
-						font-size: 36rpx;
-						font-weight: bold;
-						background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
-						border-radius: 50rpx;
-					}
-				}
-			}
-		}
-	}
-	
-	.maskRe {
-		width: 550rpx;
-		padding: 20rpx;
-		border-radius: 20rpx;
-		border: 2rpx solid #000;
-		background-color: #fff;
-		.title{
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 25rpx;
-			.left{
-				width: 50rpx;
-			}
-			.center{
-				color: #000;
-				font-size: 28rpx;
-				font-weight: bold;
-			}
-			.right{
-				image{
-					width: 50rpx;
-					height: 50rpx;
-				}
-			}
-		}
-		.tokenList{
-			padding: 18rpx;
-			.coinListTitle{
-				display: flex;
-				justify-content: space-between;
-				border-bottom: 2px solid #e5e5e5;
-				padding: 20rpx 0;
+				padding: 25rpx;
 				.left{
-					font-size: 30rpx;
+					width: 50rpx;
+				}
+				.center{
 					color: #000;
+					font-size: 28rpx;
+					font-weight: bold;
 				}
 				.right{
 					image{
-						width: 60rpx;
-						height: 60rpx;
-						margin-right: 5rpx;
-						border-radius: 50%;
+						width: 50rpx;
+						height: 50rpx;
 					}
 				}
 			}
-			.listOne{
-				margin-top: 20rpx;
-				display: flex;
-				justify-content: space-between;
-				.oneLeft{
-					color: gray;
+			.tokenList{
+				padding: 18rpx;
+				.coinListTitle{
+					display: flex;
+					justify-content: space-between;
+					border-bottom: 2px solid #e5e5e5;
+					padding: 20rpx 0;
+					.left{
+						font-size: 30rpx;
+						color: #000;
+					}
+					.right{
+						image{
+							width: 60rpx;
+							height: 60rpx;
+							margin-right: 5rpx;
+							border-radius: 50%;
+						}
+					}
 				}
-				.oneRight{
-					color: #6929C4;
+				.listOne{
+					margin-top: 20rpx;
+					display: flex;
+					justify-content: space-between;
+					.oneLeft{
+						color: gray;
+					}
+					.oneRight{
+						color: #6929C4;
+					}
 				}
-			}
-			.btnBootom{
-				display: flex;
-				justify-content: center;
-				margin-top: 50rpx;
-				.btn{
-					width: 100%;
-					height: 100rpx;
-					line-height: 100rpx;
-					text-align: center;
-					background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
-					border-radius: 42rpx;
-					color: #fff;
+				.btnBootom{
+					display: flex;
+					justify-content: center;
+					margin-top: 50rpx;
+					.btn{
+						width: 100%;
+						height: 100rpx;
+						line-height: 100rpx;
+						text-align: center;
+						background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+						border-radius: 42rpx;
+						color: #fff;
+					}
 				}
 			}
 		}
-	}
-	.slideStyle {
-		background-image: url('../../static/logo.png');
-		background-size: 100% 100%;
-		width: 60rpx;
-		height: 60rpx;
-	}
-
-	
-
-	.clientText {
-		color: #fff;
-		text-align: center;
-		font-size: 24upx;
-		margin-top: 20upx;
-	}
-
-	.client {
-		.samll {
+		.slideStyle {
+			background-image: url('../../static/logo.png');
+			background-size: 100% 100%;
+			width: 60rpx;
+			height: 60rpx;
+		}
+		
+		
+		
+		.clientText {
 			color: #fff;
 			text-align: center;
 			font-size: 24upx;
 			margin-top: 20upx;
 		}
-
-		.text {
-			color: #00DEA1;
-			text-align: center;
-			font-size: 24upx;
-			margin-top: 20upx;
-		}
-	}
-
-	.tipMsg {
-		background: rgba(255,24,28,0.1);
-		padding: 28upx;
-		border-radius: 28upx;
-		margin-bottom: 40upx;
 		
-		.text {
-			font-family: Noto Sans SC, Noto Sans SC;
-			font-weight: 400;
-			font-size: 24rpx;
-			color: #DA1E28;
-		}
-	}
-
-	.sharePool {
-		margin-top: 30upx;
-		
-		.title {
-			font-size: 26upx;
-			color: #000;
-			font-weight: bold;
-		}
-		
-		.shareList {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			border: 2upx solid #E0E0E0;
-			padding: 30upx 0;
-			border-radius: 15upx;
-			margin-top: 20upx;
-		
-			.item {
-				width: 33.3%;
-				color: #000;
+		.client {
+			.samll {
+				color: #fff;
 				text-align: center;
 				font-size: 24upx;
+				margin-top: 20upx;
 			}
-			.num{
+		
+			.text {
+				color: #00DEA1;
+				text-align: center;
+				font-size: 24upx;
+				margin-top: 20upx;
+			}
+		}
+		
+		.tipMsg {
+			background: rgba(255,24,28,0.1);
+			padding: 28upx;
+			border-radius: 28upx;
+			margin-bottom: 40upx;
+			
+			.text {
+				font-family: Noto Sans SC, Noto Sans SC;
+				font-weight: 400;
+				font-size: 24rpx;
+				color: #DA1E28;
+			}
+		}
+		
+		.sharePool {
+			margin-top: 30upx;
+			
+			.title {
+				font-size: 26upx;
+				color: #000;
 				font-weight: bold;
 			}
+			
+			.shareList {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border: 2upx solid #E0E0E0;
+				padding: 30upx 0;
+				border-radius: 15upx;
+				margin-top: 20upx;
+			
+				.item {
+					width: 33.3%;
+					color: #000;
+					text-align: center;
+					font-size: 24upx;
+				}
+				.num{
+					font-weight: bold;
+				}
+			}
+		}
+		
+		.shareBtn {
+			background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+			padding: 30upx;
+			margin-top: 56upx;
+			border-radius: 42upx;
+			
+			.text {
+				font-size: 30upx;
+				color: #fff;
+				text-align: center;
+			}
+		}
+		.tip{
+			background-color: rgb(247 220 222);
+			margin: 30upx;
+			padding: 15upx;
+			border-radius: 15upx;
+			.text{
+				font-size: 28upx;
+				color:rgb(234 53 53);
+			}
 		}
 	}
-
-	.shareBtn {
-		background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
-		padding: 30upx;
-		margin-top: 56upx;
-		border-radius: 42upx;
+	@media all and (min-width: 320px) and (max-width: 700px){
+		.content {
+			width: 100%;
+			height: auto;
+			min-height: 100vh;
+			box-sizing: border-box;
+			position: relative;
+			padding-bottom: 30upx;
+			padding-top: 140rpx;
+			.backTitle {
+				margin: 38rpx 44rpx;
 		
-		.text {
-			font-size: 30upx;
+				image {
+					width: 60rpx;
+					height: 54rpx;
+				}
+			}
+			.centerBox{
+				margin: 40rpx 30rpx 0 30rpx;
+				border: 2rpx solid #e5e5e5;
+				border-radius: 20rpx;
+				.poolTitle {
+					position: relative;
+					text-align: center;
+					margin-bottom: 30upx;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					margin-bottom: 30upx;
+					padding: 0 28rpx;
+					height: 112rpx;
+					background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
+					border-radius: 30rpx 30rpx 0 0;
+					.back {
+						image {
+							width: 56upx;
+							height: 56upx;
+						}
+					}
+					.title {
+						color: #fff;
+					}
+					.rightN{
+						width: 56rpx;
+						display: flex;
+						justify-content: right;
+						image {
+							width: 32rpx;
+							height: 32rpx;
+						}
+					}
+				}
+				.outLP{
+					margin-top: 27rpx;
+					padding: 28rpx;
+					.titleBox{
+						color: #161616;
+						font-weight: bold;
+						font-size: 36rpx;
+					}
+					.infoBox{
+						margin-top: 30rpx;
+						padding: 25rpx 16rpx;
+						background: linear-gradient( 270deg, #6652D9 0%, #E283E7 55%, #F4CDCD 100%);
+						border-radius: 10rpx;
+						.top1{
+							display: flex;
+							justify-content: space-between;
+							margin-bottom: 31rpx;
+							color: #fff;
+							font-size: 28rpx;
+							font-weight: bold;
+						}
+					}
+					.endingBox{
+						margin: 34rpx 0;
+						color: #161616;
+						font-size: 30rpx;
+					}
+					.btnGo2{
+						display: flex;
+						justify-content: center;
+						margin-top: 80rpx;
+						margin-bottom: 40rpx;
+						.btn{
+							width: 357rpx;
+							height: 90rpx;
+							line-height: 90rpx;
+							text-align: center;
+							color: #fff;
+							font-size: 36rpx;
+							font-weight: bold;
+							background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
+							border-radius: 50rpx;
+						}
+					}
+				}
+			}
+		}
+		
+		.maskRe {
+			width: 550rpx;
+			padding: 20rpx;
+			border-radius: 20rpx;
+			border: 2rpx solid #000;
+			background-color: #fff;
+			.title{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 25rpx;
+				.left{
+					width: 50rpx;
+				}
+				.center{
+					color: #000;
+					font-size: 28rpx;
+					font-weight: bold;
+				}
+				.right{
+					image{
+						width: 50rpx;
+						height: 50rpx;
+					}
+				}
+			}
+			.tokenList{
+				padding: 18rpx;
+				.coinListTitle{
+					display: flex;
+					justify-content: space-between;
+					border-bottom: 2px solid #e5e5e5;
+					padding: 20rpx 0;
+					.left{
+						font-size: 30rpx;
+						color: #000;
+					}
+					.right{
+						image{
+							width: 60rpx;
+							height: 60rpx;
+							margin-right: 5rpx;
+							border-radius: 50%;
+						}
+					}
+				}
+				.listOne{
+					margin-top: 20rpx;
+					display: flex;
+					justify-content: space-between;
+					.oneLeft{
+						color: gray;
+					}
+					.oneRight{
+						color: #6929C4;
+					}
+				}
+				.btnBootom{
+					display: flex;
+					justify-content: center;
+					margin-top: 50rpx;
+					.btn{
+						width: 100%;
+						height: 100rpx;
+						line-height: 100rpx;
+						text-align: center;
+						background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+						border-radius: 42rpx;
+						color: #fff;
+					}
+				}
+			}
+		}
+		.slideStyle {
+			background-image: url('../../static/logo.png');
+			background-size: 100% 100%;
+			width: 60rpx;
+			height: 60rpx;
+		}
+		
+		
+		
+		.clientText {
 			color: #fff;
 			text-align: center;
+			font-size: 24upx;
+			margin-top: 20upx;
 		}
-	}
-	.tip{
-		background-color: rgb(247 220 222);
-		margin: 30upx;
-		padding: 15upx;
-		border-radius: 15upx;
-		.text{
-			font-size: 28upx;
-			color:rgb(234 53 53);
+		
+		.client {
+			.samll {
+				color: #fff;
+				text-align: center;
+				font-size: 24upx;
+				margin-top: 20upx;
+			}
+		
+			.text {
+				color: #00DEA1;
+				text-align: center;
+				font-size: 24upx;
+				margin-top: 20upx;
+			}
+		}
+		
+		.tipMsg {
+			background: rgba(255,24,28,0.1);
+			padding: 28upx;
+			border-radius: 28upx;
+			margin-bottom: 40upx;
+			
+			.text {
+				font-family: Noto Sans SC, Noto Sans SC;
+				font-weight: 400;
+				font-size: 24rpx;
+				color: #DA1E28;
+			}
+		}
+		
+		.sharePool {
+			margin-top: 30upx;
+			
+			.title {
+				font-size: 26upx;
+				color: #000;
+				font-weight: bold;
+			}
+			
+			.shareList {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border: 2upx solid #E0E0E0;
+				padding: 30upx 0;
+				border-radius: 15upx;
+				margin-top: 20upx;
+			
+				.item {
+					width: 33.3%;
+					color: #000;
+					text-align: center;
+					font-size: 24upx;
+				}
+				.num{
+					font-weight: bold;
+				}
+			}
+		}
+		
+		.shareBtn {
+			background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+			padding: 30upx;
+			margin-top: 56upx;
+			border-radius: 42upx;
+			
+			.text {
+				font-size: 30upx;
+				color: #fff;
+				text-align: center;
+			}
+		}
+		.tip{
+			background-color: rgb(247 220 222);
+			margin: 30upx;
+			padding: 15upx;
+			border-radius: 15upx;
+			.text{
+				font-size: 28upx;
+				color:rgb(234 53 53);
+			}
 		}
 	}
 </style>

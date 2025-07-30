@@ -17,18 +17,18 @@
 					<view class="loader"></view>
 				</view>
 				<view class="tabBoX">
-					<view class="tabList" :class="countIndex == index?'activeS':''" v-for="(item, index) in tab" :key="index" @tap="clickTab(index)">
+					<view class="tabList" :class="countIndex == index?'activeS':'activeS2'" v-for="(item, index) in tab" :key="index" @tap="clickTab(index)">
 						<text>{{$t(item)}}</text>
 						<image v-if="countIndex == index" class="positionImg" src="/static/icon3.png" mode=""></image>
 					</view>
 				</view>
-				<view class="smallTitle">
-					<text>ftAmount</text>
-					<text>tbcAmount</text>
-					<text>{{$t('tran3')}}</text>
-				</view>
-				<view class="boxInfo">
-					<view class="infoBigBox" v-for="(item, index) in pooInfoData" :key="index">
+				<view class="boxInfo" v-for="(item, index) in pooInfoData" :key="index">
+					<view class="smallTitle">
+						<text>ftAmount</text>
+						<text>tbcAmount</text>
+						<text>{{$t('tran3')}}</text>
+					</view>
+					<view class="infoBigBox">
 						<!-- <view class="positionTips":style="{color: item.userType == 1?'firebrick':'green'}">
 							{{item.userType == 0?$t('tran4'):$t('tran5')}}
 						</view> -->
@@ -40,22 +40,21 @@
 								{{Math.floor((item.tbcAmount/1000000)*100)/100}}
 							</view>
 							<view class="numRight" :style="{color: item.doStatus == 3 || item.doStatus == 4?'#07c160':'rgba(115, 40, 228, 0.4)'}">
-								<!--{{item.doStatus == 5?$t('tran6'):item.doStatus == 105?$t('tran7'):$t('Success')}}-->
 								{{item.doStatus == 0?$t('newTips0'):item.doStatus == 1?$t('newTips1'):item.doStatus == 2?$t('newTips2'):item.doStatus == 3 || item.doStatus == 4?$t('Success'):item.doStatus == -11?$t('tran7'):item.doStatus == 6?$t('newTips3'):item.doStatus == 8?$t('newTips4'):''}}
 							</view>
 						</view>
 						<view class="infoCoinNum2">
-							<view class="numRight">
-								<text class="hashText">{{$t('tran8')}} hash：{{item.getHash | plusXing}}</text>
-								<text class="copyBtn" @tap="clickCopy(item.getHash)">{{$t('go')}}</text>
+							<view class="numRight" style="margin-top: 0;">
+								<text class="hashText" @tap="copyHash(item.getHash)">{{$t('tran8')}} hash：{{item.getHash | plusXing}}</text>
+								<image class="copyBtn" src="/static/goIcon.png" @tap="clickCopy(item.getHash)" mode=""></image>
 							</view>
 							<view class="numRight">
-								<text class="hashText">{{$t('tran9')}} hash：{{item.doHash | plusXing}}</text>
-								<text class="copyBtn" @tap="clickCopy(item.doHash)">{{$t('go')}}</text>
+								<text class="hashText" @tap="copyHash(item.doHash)">{{$t('tran9')}} hash：{{item.doHash | plusXing}}</text>
+								<image class="copyBtn" src="/static/goIcon.png" @tap="clickCopy(item.doHash)" mode=""></image>
 							</view>
 							<view class="numRight">
-								<text class="hashText">{{$t('tran10')}} hash：{{item.sendHash | plusXing}}</text>
-								<text class="copyBtn" @tap="clickCopy(item.sendHash)">{{$t('go')}}</text>
+								<text class="hashText" @tap="copyHash(item.sendHash)">{{$t('tran10')}} hash：{{item.sendHash | plusXing}}</text>
+								<image class="copyBtn" src="/static/goIcon.png" @tap="clickCopy(item.sendHash)" mode=""></image>
 							</view>
 						</view>
 					</view>
@@ -137,6 +136,18 @@
 				this.totol = 0;
 				this.getNowInfo(val);
 			},
+			copyHash(val) {
+				let _this = this;
+				uni.setClipboardData({
+					data: val,
+					success: function () {
+						uni.showToast({
+							icon: 'none',
+						    title: _this.$t('copySuccess'),
+						});
+					}
+				});
+			},
 			Init() {
 				console.log(uni.getStorageSync('walletAddress'))
 				if (uni.getStorageSync('walletAddress') == undefined || uni.getStorageSync('walletAddress') == '') {
@@ -165,7 +176,8 @@
 					    title: this.$t('tran11'),
 					});
 				} else{
-					window.location.href = 'https://explorer.turingbitchain.io/tx/'+val;
+					// window.location.href = 'https://explorer.turingbitchain.io/tx/'+val;
+					window.open('https://explorer.turingbitchain.io/tx/'+val, '_blank')
 				}
 			},
 			getNowInfo(type) {
@@ -255,17 +267,10 @@
 						  left: 0;
 						  right: 0;
 						  bottom: 0;
-						  background-color: rgba(115, 40, 228, 0.1); /* 半透明黑色遮罩 */
+						  background-color: rgba(102, 82, 217, .1); /* 半透明黑色遮罩 */
 						  z-index: 10;
 					}
-					.smallTitle{
-						color: gray;
-						font-size: 30rpx;
-						margin-bottom: 30rpx;
-						display: flex;
-						justify-content: space-between;
-						padding: 0 20rpx;
-					}
+					
 					.tabBoX{
 						display: flex;
 						justify-content: space-around;
@@ -277,8 +282,6 @@
 							height: 80rpx;
 							line-height: 78rpx;
 							border-radius: 40rpx;
-							background-color: rgba(115, 40, 228, 0.1);
-							color: #6433D6;
 							text-align: center;
 							position: relative;
 							.positionImg{
@@ -291,22 +294,30 @@
 							}
 						}
 						.activeS{
-							margin-right: 20rpx;
-							width: 300rpx;
-							height: 80rpx;
-							line-height: 78rpx;
-							border-radius: 40rpx;
-							background: linear-gradient(90deg, #AF6EFF 0%, #8D60FF 100%);
+							background: linear-gradient( 270deg, #6652D9 0%, #E283E7 50%, #F4CDCD 100%);
 							color: #fff;
+						}
+						.activeS2{
+							border: 2rpx solid #E283E7;
+							color: #9152D9;
 						}
 					}
 					.boxInfo{
-						background-color: #F5F9FF;
 						border-radius: 20rpx;
-						padding: 10rpx 10rpx;
+						background: #FFFFFF;
+						box-shadow: 0px 4rpx 28rpx rgba(88,86,218,0.16);
+						padding: 20rpx;
+						margin-bottom: 28rpx;
+						.smallTitle{
+							color: #525252;
+							font-size: 30rpx;
+							margin-bottom: 20rpx;
+							display: flex;
+							justify-content: space-between;
+							padding: 0 20rpx;
+						}
 						.infoBigBox{
 							padding: 20rpx 10rpx;
-							border-bottom: 2rpx dashed rgba(115, 40, 228, 0.5);
 							position: relative;
 							.positionTips{
 								position: absolute;
@@ -333,19 +344,23 @@
 								}
 							}
 							.infoCoinNum2{
+								background-color: #F5F9FF;
+								padding: 14rpx;
+								border-radius: 14rpx;
 								.numRight{
 									display: flex;
 									justify-content: space-between;
 									align-items: center;
-									margin-bottom: 30rpx;
+									margin-top: 30rpx;
 									.hashText{
-										color: gray;
+										font-family: Noto Sans SC, Noto Sans SC;
+										font-weight: 500;
+										font-size: 26rpx;
+										color: #4E5969;
 									}
 									.copyBtn{
-										color: #6433D6;
-										padding: 0 10rpx;
-										border-radius: 40rpx;
-										background-color: rgba(115, 40, 228, 0.1);
+										width: 30rpx;
+										height: 30rpx;
 									}
 								}
 							}
@@ -405,18 +420,11 @@
 						left: 0;
 						right: 0;
 						bottom: 0;
-						background-color: rgba(115, 40, 228, 0.1); /* 半透明黑色遮罩 */
+						background-color: rgba(102, 82, 217, .1); /* 半透明黑色遮罩 */
 						z-index: 10;
 						border-radius: 20rpx;
 					}
-					.smallTitle{
-						color: gray;
-						font-size: 30rpx;
-						margin-bottom: 30rpx;
-						display: flex;
-						justify-content: space-between;
-						padding: 0 20rpx;
-					}
+					
 					.tabBoX{
 						display: flex;
 						justify-content: space-around;
@@ -429,8 +437,6 @@
 							height: 80rpx;
 							line-height: 78rpx;
 							border-radius: 40rpx;
-							background-color: rgba(115, 40, 228, 0.1);
-							color: #6433D6;
 							position: relative;
 							.positionImg{
 								position: absolute;
@@ -442,22 +448,30 @@
 							}
 						}
 						.activeS{
-							margin-right: 20rpx;
-							width: 300rpx;
-							height: 80rpx;
-							line-height: 78rpx;
-							border-radius: 40rpx;
-							background: linear-gradient(90deg, #AF6EFF 0%, #8D60FF 100%);
+							background: linear-gradient( 270deg, #6652D9 0%, #E283E7 50%, #F4CDCD 100%);
 							color: #fff;
+						}
+						.activeS2{
+							border: 2rpx solid #E283E7;
+							color: #9152D9;
 						}
 					}
 					.boxInfo{
-						background-color: #F5F9FF;
 						border-radius: 20rpx;
-						padding: 10rpx 10rpx;
+						background: #FFFFFF;
+						box-shadow: 0px 4rpx 28rpx rgba(88,86,218,0.16);
+						padding: 20rpx;
+						margin-bottom: 28rpx;
+						.smallTitle{
+							color: #525252;
+							font-size: 30rpx;
+							margin-bottom: 20rpx;
+							display: flex;
+							justify-content: space-between;
+							padding: 0 20rpx;
+						}
 						.infoBigBox{
 							padding: 20rpx 10rpx;
-							border-bottom: 2rpx dashed rgba(115, 40, 228, 0.5);
 							position: relative;
 							.positionTips{
 								position: absolute;
@@ -484,20 +498,23 @@
 								}
 							}
 							.infoCoinNum2{
-								z-index: 99;
+								background-color: #F5F9FF;
+								padding: 14rpx;
+								border-radius: 14rpx;
 								.numRight{
 									display: flex;
 									justify-content: space-between;
 									align-items: center;
-									margin-bottom: 30rpx;
+									margin-top: 30rpx;
 									.hashText{
-										color: gray;
+										font-family: Noto Sans SC, Noto Sans SC;
+										font-weight: 500;
+										font-size: 26rpx;
+										color: #4E5969;
 									}
 									.copyBtn{
-										color: #6433D6;
-										padding: 0 10rpx;
-										border-radius: 40rpx;
-										background-color: rgba(115, 40, 228, 0.1);
+										width: 30rpx;
+										height: 30rpx;
 									}
 								}
 							}

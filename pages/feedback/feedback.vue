@@ -216,7 +216,7 @@
 			}
 		
 			.centerBox {
-				width: 70%;
+				width: 50%;
 				margin: 40rpx auto;
 				box-sizing: border-box;
 				background-color: #fff;
@@ -236,7 +236,7 @@
 					margin-bottom: 30upx;
 					padding: 0 28rpx;
 					height: 112rpx;
-					background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+					background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 					border-radius: 30rpx 30rpx 0 0;
 					.back {
 						width: 56upx;
@@ -624,7 +624,7 @@
 				color: #fff;
 				font-size: 36rpx;
 				font-weight: bold;
-				background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+				background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 				border-radius: 50rpx;
 			}
 		}
@@ -675,7 +675,7 @@
 					margin-bottom: 30upx;
 					padding: 0 28rpx;
 					height: 112rpx;
-					background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+					background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 					border-radius: 30rpx 30rpx 0 0;
 					.back {
 						width: 56upx;
@@ -1063,7 +1063,7 @@
 				color: #fff;
 				font-size: 36rpx;
 				font-weight: bold;
-				background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+				background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 				border-radius: 50rpx;
 			}
 		}

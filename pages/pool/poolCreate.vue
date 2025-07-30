@@ -336,6 +336,7 @@
 						with_lock: false
 					}];
 					const {txid,rawtx} = await window.Turing.sendTransaction(params);
+					console.log("POOLNFT_MINT: "+txid)
 					this.poolInit(txid);
 				} catch(err) {
 					this.$refs.loading.close();
@@ -352,7 +353,7 @@
 						poolNFT_version: 2
 					}];
 					const {txid,rawtx} = await window.Turing.sendTransaction(paramsEnd)
-					console.log(txid)
+					console.log("POOLNFT_INIT: "+txid)
 					if(txid) {
 						this.unloadCoinID(twoID)
 						this.$refs.loading.close();
@@ -465,7 +466,6 @@
 			},
 			getCoinBalance(coinInfo, type) {
 				if (coinInfo.name == 'TBC') {
-					var nowTbc = 0;
 					uni.request({
 						url: this.urlApi + 'address/'+this.myAddress+'/get/balance',
 						method: 'GET',
@@ -552,10 +552,11 @@
 				}
 			
 				.centerBox {
-					width: 70%;
+					width: 50%;
 					margin: 40rpx auto;
 					box-sizing: border-box;
 					// margin: 40rpx 30rpx 0 30rpx;
+					box-shadow: 0px 4rpx 28px rgba(88,86,218,0.16);
 					background-color: #fff;
 					border-radius: 20rpx;
 					.poolTitle {
@@ -565,7 +566,7 @@
 						margin-bottom: 30upx;
 						padding: 0 28rpx;
 						height: 112rpx;
-						background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+						background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 						border-radius: 30rpx 30rpx 0 0;
 						.back {
 							image {
@@ -648,7 +649,7 @@
 			
 							.inputBody {
 								height: 169rpx;
-								background: rgba(115,40,228,0.1);
+								background: rgba(102,82,217,0.05);
 								border-radius: 30rpx;
 								padding-right: 45rpx;
 			
@@ -832,7 +833,7 @@
 							color: gray;
 						}
 						.oneRight{
-							color: #00dea1;
+							color: #6652D9;
 						}
 					}
 					.btnBootom{
@@ -844,7 +845,7 @@
 							height: 100rpx;
 							line-height: 100rpx;
 							text-align: center;
-							background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+							background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 							border-radius: 42rpx;
 							color: #fff;
 						}
@@ -928,7 +929,7 @@
 			}
 			
 			.shareBtn {
-				background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+				background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 				padding: 30upx;
 				margin-top: 56upx;
 				border-radius: 42upx;
@@ -962,6 +963,7 @@
 				.centerBox {
 					max-width: 750rpx;
 					margin: 40rpx 30rpx 0 30rpx;
+					box-shadow: 0px 4rpx 28px rgba(88,86,218,0.16);
 					background-color: #fff;
 					border-radius: 20rpx;
 					.poolTitle {
@@ -971,7 +973,7 @@
 						margin-bottom: 30upx;
 						padding: 0 28rpx;
 						height: 112rpx;
-						background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+						background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 						border-radius: 30rpx 30rpx 0 0;
 						.back {
 							image {
@@ -1054,7 +1056,7 @@
 			
 							.inputBody {
 								height: 169rpx;
-								background: rgba(115,40,228,0.1);
+								background: rgba(102,82,217,0.05);
 								border-radius: 30rpx;
 								padding-right: 45rpx;
 			
@@ -1238,7 +1240,7 @@
 							color: gray;
 						}
 						.oneRight{
-							color: #00dea1;
+							color: #6652D9;
 						}
 					}
 					.btnBootom{
@@ -1250,7 +1252,7 @@
 							height: 100rpx;
 							line-height: 100rpx;
 							text-align: center;
-							background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+							background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 							border-radius: 42rpx;
 							color: #fff;
 						}
@@ -1334,7 +1336,7 @@
 			}
 			
 			.shareBtn {
-				background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+				background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 				padding: 30upx;
 				margin-top: 56upx;
 				border-radius: 42upx;

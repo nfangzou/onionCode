@@ -192,7 +192,7 @@
 			top: 0;
 			left: 0;
 			right: 0;
-			background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+			background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
 			.headLeft{
 				display: flex;
 				align-items: center;
@@ -337,6 +337,69 @@
 				}
 			}
 		}
+		.insureBoxTwo{
+			width: 200upx;
+			height: 100%;
+			border-radius: 20rpx;
+			background-color: #fff;
+			padding: 40rpx;
+			.closeStyle{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.leftText{
+					font-size: 32rpx;
+					font-family: Microsoft YaHei, Microsoft YaHei;
+					font-weight: bold;
+					color: #000;
+				}
+				.rightIcon{
+					width: 50rpx;
+					height: 50rpx;
+					image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+			}
+			.no-scrollbar {
+			    -ms-overflow-style: none;  /* IE 10+ */
+			    scrollbar-width: none;  /* Firefox */
+			}
+			.btnList{
+				height: 70%;
+				overflow-y: scroll;
+				.iconListTwo{
+					display: flex;
+					align-items: center;
+					margin-top: 50rpx;
+					border-bottom: 2rpx solid rgba(115, 40, 228, 0.2);
+					padding: 40rpx;
+					.iconImg{
+						width: 40rpx;
+						height: 40rpx;
+						margin-right: 20rpx;
+					}
+					text{
+						font-family: Noto Sans SC, Noto Sans SC;
+						font-weight: 500;
+						font-size: 33rpx;
+						color: #161616;
+					}
+				}
+				.iconListTwo2{
+					border-bottom: 2rpx solid rgba(115, 40, 228, 0.2);
+					padding:  40rpx 80rpx;
+					margin-left: 50rpx;
+					text{
+						font-family: Noto Sans SC, Noto Sans SC;
+						font-weight: 500;
+						font-size: 33rpx;
+						color: #161616;
+					}
+				}
+			}
+		}
 	}
 	@media all and (min-width: 320px) and (max-width: 700px){
 		.goBacke{
@@ -346,7 +409,7 @@
 			padding: 24upx;
 			width: 100%;
 			box-sizing: border-box;
-			background: linear-gradient( 90deg, #AF6EFF 0%, #8D60FF 100%);
+			background: linear-gradient( 270deg, #6652D9 0%, #E283E7 55%, #F4CDCD 100%);
 			z-index: 99;
 			position: fixed;
 			top: 0;

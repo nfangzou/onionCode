@@ -2,135 +2,246 @@
 	<view class="content">
 		<back ref="child" text="" :text="myAddress" :type="0" :classType="true" subheading="true" @getMsg="getMsg">
 		</back>
-		<view class="centerBox">
-			<view class="loadIcon">
-				<image @tap="loadClick" src="../../static/load.png" mode=""></image>
+		<view class="searchTop">
+			<view class="leftInput">
+				<input type="text" v-model="searchHash" :placeholder="$t('newIndex10')" />
 			</view>
-			<view class="lpBox">
-				<view class="coinBox">
-					<view class="coinNameBox">
-						<view class="coinSmall" @tap="showPupCoin('from')">
-							<image class="slectIcon2"
-								:src="fromCur.logoURI==''?'https://dapp.onionswap.info/logo.png':fromCur.logoURI"
-								mode=""></image>
-							<text>{{fromCur.name?fromCur.name:$t('index6')}}</text>
-							<image class="slectIcon" src="../../static/bottomIcon.png" mode=""></image>
-						</view>
-					</view>
-					<view class="coinMax" @tap="clickFromMax(1)">
-						MAX
-					</view>
-					<view class="coinMax" @tap="clickFromMax(2)">
-						50%
-					</view>
-					<view class="coinMax" @tap="clickFromMax(3)">
-						25%
-					</view>
+			<view class="rightBtn" @tap="searchClick">
+				<image src="/static/searchIcon.png" mode=""></image>
+				<text>{{$t('newIndex1')}}</text>
+			</view>
+		</view>
+		<view class="webCenterBox">
+			<view class="webLeft">
+				<view class="bannerBox">
+					<liu-slide-img :list="bannerList" :borderRadius="30" :type="1" :autoplay="autoplay" :interval="interval" @change="bannerChange"
+					   @click="bannerClick"></liu-slide-img>
 				</view>
-				<view class="inputToBox">
-					<view class="blanceTitle">
-						{{$t('index7')}}：<text style="color: #3367D6;">{{fromCur.balance}}</text>
+				<view class="tranInfo">
+					<view class="infoTilte">
+						{{$t('newIndex2')}}
 					</view>
-					<view class="inputBody">
-						<input v-model="fromCoinNum" :style="{'height':!focusFromStaus?'100%':''}" @input="showChange"
-							type="text" />
-						<view v-if="focusFromStaus" class="smallNumU">~{{Math.floor(usdtPrice*100)/100}} USD</view>
+					<view class="smallText">
+						{{$t('newIndex3')}}
 					</view>
-				</view>
-				<view class="centerIcon">
-					<view class="changebox" @tap="changeIcon()">
-						<image src="../../static/icon2.png" mode=""></image>
-					</view>
-				</view>
-				<view class="coinBox">
-					<view class="coinNameBox">
-						<view class="coinSmall" @tap="showPupCoin('to')">
-							<image class="slectIcon2"
-								:src="toCur.logoURI==''?'https://dapp.onionswap.info/logo.png':toCur.logoURI" mode="">
-							</image>
-							<text>{{toCur.name?toCur.name:$t('index6')}}</text>
-							<image class="slectIcon" src="../../static/bottomIcon.png" mode=""></image>
-						</view>
-					</view>
-					<view class="coinMax" @tap="clickToMax(1)">
-						MAX
-					</view>
-					<view class="coinMax" @tap="clickToMax(2)">
-						50%
-					</view>
-					<view class="coinMax" @tap="clickToMax(3)">
-						25%
-					</view>
-				</view>
-				<view class="inputToBox">
-					<view class="blanceTitle">
-						{{$t('index7')}}：<text style="color: #3367D6;">{{toCur.balance}}</text>
-					</view>
-					<view class="inputBody">
-						<input v-model="toCoinNum" :style="{'height':!focusToStaus?'100%':''}" @input="showToChange"
-							type="text" />
-						<view v-if="focusToStaus" class="smallNumU">~{{Math.floor(usdtPrice*100)/100}} USD</view>
-					</view>
-				</view>
-				<view class="tipsText" v-if="toCur.name != ''">
-					1 {{fromCur.name}}{{fromCur.name == 'TBC'?' ≈ '+(showUsdtPrice)+' USD':''}} = {{fromCur.name == 'TBC'?FTPrice:TBCPrice}} {{toCur.name}} {{toCur.name == 'TBC'?'≈ '+(Math.floor(showUsdtPrice*TBCPrice*1000000)/1000000)+' USD':''}}
-				</view>
-				<view class="newToBox">
-					<!-- <view class="textToTitle" v-if="!personToEent" @tap="personToEent = true">
-						+ {{$t('swap1')}}111
-					</view> -->
-					<!-- <view class="toRessBox">
-						<view class="ressTitle">
-							<view class="titleOne">
-								{{$t('swap2')}}
-							</view>
-							<view class="titleCenter"></view>
-							<view class="titleRight"  @tap="closeToPerson">
-								{{$t('swap3')}}
-							</view>
-						</view>
-						<view class="inputToAddress">
-							<input v-model="toInputAddress" :placeholder="$t('swap4')" type="text" />
-						</view>
-					</view> -->
-				</view>
-				<view class="SlippageBox">
-					<view class="boxTitle">
-						{{$t('index8')}}
-					</view>
-					<view class="slipBox">
-						<view class="list" :class="slipCrrent == index?'listActive':'listNoActive'"
-							v-for="(item, index) in slipData" :key="index" @tap="clickSlip(index)">
-							{{item}}%
-						</view>
-						<view class="list2" :class="slipCrrent == 3?'listActive':'listNoActive'">
-							<input v-model="selfSlip" @input="inputNum" :placeholder="$t('index9')"
-								placeholder-style="color: rgba(51, 103, 214, .3);" type="text" /><text
-								style="margin-right: 20rpx;">%</text>
-						</view>
-					</view>
-				</view>
-				<view class="routerBox" v-if="toCur.name != ''">
-					<view class="lefrRou">
-						{{$t('index10')}}
-					</view>
-					<view class="rightRou">
+					<view class="tokenIcon">
+						<image :src="fromCur.logoURI==''?'https://dapp.onionswap.info/logo.png':fromCur.logoURI" mode=""></image>
 						<text>{{fromCur.name}}</text>
-						<image src="/static/rightIcon.png" mode=""></image>
+					</view>
+					<view class="tokenIcon">
+						<image :src="toCur.logoURI==''?'https://dapp.onionswap.info/logo.png':toCur.logoURI" mode=""></image>
 						<text>{{toCur.name}}</text>
 					</view>
 				</view>
-				<view class="btnGo">
-					<view class="btn" @tap="inClick" v-if="!SwapBtnStatus">
-						{{$t('index11')}}
+			</view>
+			<view class="centerBox">
+				<view class="lpBox">
+					<view class="formBox">
+						<view class="coinBox">
+							<view class="fromText">
+								{{$t('newIndex4')}}
+							</view>
+							<view class="selectNum">
+								<view class="coinMax" v-for="(item, index) in numList" :key="index" @tap="clickFromMax(index)">
+									{{item}}
+								</view>
+							</view>
+						</view>
+						<view class="inputToBox">
+							<view class="inputBody">
+								<view class="coinNameBox">
+									<view class="coinSmall" @tap="showPupCoin('from')">
+										<image class="slectIcon2"
+											:src="fromCur.logoURI==''?'https://dapp.onionswap.info/logo.png':fromCur.logoURI"
+											mode=""></image>
+										<text>{{fromCur.name?fromCur.name:$t('index6')}}</text>
+										<image class="slectIcon" src="../../static/bottomIcon.png" mode=""></image>
+									</view>
+								</view>
+								<view class="inputRight">
+									<input v-model="fromCoinNum" :style="{'height':!focusFromStaus?'100%':''}" @input="showChange"
+										type="text" placeholder="0.00" />
+								</view>
+							</view>
+							<view class="blanceTitle">
+								<view class="leftBlan">
+									{{$t('index7')}}：{{fromCur.balance}}
+								</view>
+								<view v-if="focusFromStaus" class="smallNumU">~{{Math.floor(usdtPrice*100)/100}} USD</view>
+							</view>
+						</view>
 					</view>
-					<view class="btnNo" v-else>
-						{{$t('new4')}}
+					<view class="centerIcon">
+						<view class="changebox" @tap="changeIcon()">
+							<image src="../../static/icon2.png" mode=""></image>
+						</view>
+					</view>
+					<view class="formBox">
+						<view class="coinBox">
+							<view class="fromText">
+								{{$t('newIndex5')}}
+							</view>
+							<view class="selectNum">
+								<view class="coinMax" v-for="(item, index) in numList2" :key="index" @tap="clickToMax(index)">
+									{{item}}
+								</view>
+							</view>
+						</view>
+						<view class="inputToBox">
+							<view class="inputBody">
+								<view class="coinNameBox">
+									<view class="coinSmall" @tap="showPupCoin('to')">
+										<image class="slectIcon2"
+											:src="toCur.logoURI==''?'https://dapp.onionswap.info/logo.png':toCur.logoURI" mode="">
+										</image>
+										<text>{{toCur.name?toCur.name:$t('index6')}}</text>
+										<image class="slectIcon" src="../../static/bottomIcon.png" mode=""></image>
+									</view>
+								</view>
+								<view class="inputRight">
+									<input v-model="toCoinNum" :style="{'height':!focusToStaus?'100%':''}" @input="showToChange"
+										type="text" placeholder="0.00" />
+								</view>
+							</view>
+							<view class="blanceTitle">
+								<view class="leftBlan">
+									{{$t('index7')}}：{{toCur.balance}}
+								</view>
+								<view v-if="focusToStaus" class="smallNumU">~{{Math.floor(usdtPrice*100)/100}} USD</view>
+							</view>
+						</view>
+					</view>
+					<view class="tipsText" v-if="toCur.name != ''">
+						1 {{fromCur.name}}{{fromCur.name == 'TBC'?' ≈ '+(showUsdtPrice)+' USD':''}} = {{fromCur.name == 'TBC'?FTPrice:TBCPrice}} {{toCur.name}} {{toCur.name == 'TBC'?'≈ '+(Math.floor(showUsdtPrice*TBCPrice*1000000)/1000000)+' USD':''}}
+						<image @tap="loadClick" src="../../static/load.png" mode=""></image>
+					</view>
+					<view class="newToBox">
+						<!-- <view class="textToTitle" v-if="!personToEent" @tap="personToEent = true">
+							+ {{$t('swap1')}}111
+						</view> -->
+						<!-- <view class="toRessBox">
+							<view class="ressTitle">
+								<view class="titleOne">
+									{{$t('swap2')}}
+								</view>
+								<view class="titleCenter"></view>
+								<view class="titleRight"  @tap="closeToPerson">
+									{{$t('swap3')}}
+								</view>
+							</view>
+							<view class="inputToAddress">
+								<input v-model="toInputAddress" :placeholder="$t('swap4')" type="text" />
+							</view>
+						</view> -->
+					</view>
+					<view class="SlippageBox">
+						<view class="boxTitle">
+							{{$t('index8')}}
+						</view>
+						<view class="slipBox">
+							<view class="list" :class="slipCrrent == index?'listActive':'listNoActive'"
+								v-for="(item, index) in slipData" :key="index" @tap="clickSlip(index)">
+								{{item}}%
+							</view>
+							<view class="list2" :class="slipCrrent == 3?'listActive':'listNoActive'">
+								<input v-model="selfSlip" @input="inputNum" :placeholder="$t('index9')"
+									placeholder-style="color: rgba(102,82,217,0.6);" type="text" /><text
+									style="margin-right: 20rpx;">%</text>
+							</view>
+						</view>
+					</view>
+					<view class="routerBox" v-if="toCur.name != ''">
+						<view class="lefrRou">
+							{{$t('index10')}}
+						</view>
+						<view class="rightRou">
+							<text>{{fromCur.name}}</text>
+							<image src="/static/rightIcon.png" mode=""></image>
+							<text>{{toCur.name}}</text>
+						</view>
+					</view>
+					<view class="btnGo">
+						<view class="btn" @tap="inClick" v-if="!SwapBtnStatus">
+							{{$t('index11')}}
+						</view>
+						<view class="btnNo" v-else>
+							{{$t('new4')}}
+						</view>
+					</view>
+					<view class="infoGo" @tap="clickGoInfo">
+						{{$t('swap7')}}
 					</view>
 				</view>
-				<view class="infoGo" @tap="clickGoInfo">
-					{{$t('swap7')}}
+			</view>
+		</view>
+		<view class="noticeBox">
+			<view class="leftNotice">
+				{{$t('newIndex6')}}
+			</view>
+			<view class="rightBtn">
+				{{$t('newIndex7')}}
+			</view>
+		</view>
+		<view class="footerBox">
+			<view class="titleN">
+				{{$t('newIndex8')}}
+				<view class="lineStyle">
 				</view>
+			</view>
+			<view class="smallTitle">
+				{{$t('newIndex9')}}
+			</view>
+			<view class="parBox">
+				<view class="list">
+					<image src="/static/part1.png" mode=""></image>
+					<image src="/static/part2.png" mode=""></image>
+					<image src="/static/part3.png" mode=""></image>
+				</view>
+				<view class="list">
+					<image src="/static/part4.png" mode=""></image>
+					<image src="/static/part5.png" mode=""></image>
+					<image style="height: 30rpx;" src="/static/part6.png" mode=""></image>
+				</view>
+				<view class="list">
+					<image src="/static/part7.png" mode=""></image>
+					<image src="/static/part8.png" mode=""></image>
+					<image style="height: 30rpx;" src="/static/part9.png" mode=""></image>
+				</view>
+				<view class="list">
+					<image src="/static/part10.png" mode=""></image>
+					<image src="/static/part11.png" mode=""></image>
+					<image src="/static/part12.png" mode=""></image>
+				</view>
+				<view class="list">
+					<image src="/static/part13.png" mode=""></image>
+					<image src="/static/part14.png" mode=""></image>
+					<image src="/static/part15.png" mode=""></image>
+				</view>
+				<view class="list">
+					<image src="/static/part16.png" mode=""></image>
+					<image src="/static/part17.png" mode=""></image>
+					<image src="/static/part18.png" mode=""></image>
+				</view>
+				<view class="list">
+					<image src="/static/part19.png" mode=""></image>
+					<image src="/static/part20.png" mode=""></image>
+					<image src="/static/part21.png" mode=""></image>
+				</view>
+				<view class="list" style="justify-content: space-around;margin-bottom: 0;">
+					<image src="/static/part22.png" mode=""></image>
+					<image src="/static/part23.png" mode=""></image>
+				</view>
+			</view>
+		</view>
+		<view class="shareEnd">
+			<view class="endBg">
+				<image src="/static/share1.png" mode=""></image>
+			</view>
+			<view class="endBg">
+				<image src="/static/share2.png" mode=""></image>
+			</view>
+			<view class="endBg">
+				<image src="/static/share3.png" mode=""></image>
 			</view>
 		</view>
 
@@ -260,10 +371,28 @@
 				focusToStaus: false,
 				usdtPrice: 0,
 				showUsdtPrice: 0,
+				searchHash: '',
 				recAddress: '',
 				recSellAddress: '',
 				nowToAddress: '',
-				walletName: ''
+				walletName: '',
+				autoplay: true,
+				interval: 5000,
+				numList:['Max','50%','25%'],
+				numList2:['Max','50%','25%'],
+				bannerList: [
+					{
+						src: "../../static/bannerList.png",
+						title: "Onion Swap",
+						bannerInfo: "超有内涵 等你发现  ！"
+					},
+					{
+						src: "../../static/bannerList.png",
+						title: "Onion Swap",
+						bannerInfo: "天生卷王，卷出无限未来"
+					}
+				]
+				
 			}
 		},
 		computed: {
@@ -288,7 +417,7 @@
 			}
 		},
 		onLoad() {
-			console.log("version: 1.1.2")
+			console.log("version: 1.2.0")
 			this.loadConnect();
 		},
 		onShow() {
@@ -308,7 +437,7 @@
 					this.getSelectCoinInfo(this.toCur.address);
 					this.getCoinBalance(this.fromCur, 'from');
 					this.getCoinBalance(this.toCur, 'to');
-					this.getWalletInfo();
+					// this.getWalletInfo();
 					this.getShowUSDTPrice();
 					this.balanceTimer = setInterval(() => {
 						this.getCoinInfoData(this.toCur);
@@ -336,6 +465,14 @@
 				this.walletName = walletInfo.isNabox?'Nabox':'Turing';
 				console.log(this.walletName)
 			},
+			//当前轮播索引
+			bannerChange(e) {
+			    // console.log('==========', e)
+			},
+			//点击轮播
+			bannerClick(e) {
+			    // console.log('点击轮播', e)
+			},
 			getMsg() {
 				this.Init();
 			},
@@ -343,6 +480,12 @@
 				uni.navigateTo({
 					url: '/pages/index/tranferInfo'
 				})
+			},
+			searchClick() {
+				if(this.searchHash == '') {
+					return ;
+				}
+				window.open('https://explorer.turingbitchain.io/tx/'+this.searchHash, '_blank')
 			},
 			clearTimer() {
 				// clearTime
@@ -355,9 +498,9 @@
 				this.slipCrrent = val;
 			},
 			clickFromMax(type) {
-				if (type == 1) {
+				if (type == 0) {
 					this.fromCoinNum = this.fromCur.balance;
-				} else if(type == 2) {
+				} else if(type == 1) {
 					this.fromCoinNum = this.fromCur.balance / 2;
 				} else{
 					this.fromCoinNum = this.fromCur.balance / 4;
@@ -365,9 +508,9 @@
 				this.showClickChange(1, this.fromCoinNum);
 			},
 			clickToMax(type) {
-				if (type == 1) {
+				if (type == 0) {
 					this.toCoinNum = this.toCur.balance
-				} else if(type == 2) {
+				} else if(type == 1) {
 					this.toCoinNum = this.toCur.balance / 2;
 				} else{
 					this.toCoinNum = this.toCur.balance / 4;
@@ -999,341 +1142,513 @@
 			// min-height: 100vh;
 			box-sizing: border-box;
 			position: relative;
-			padding-bottom: 50upx;
-			padding-top: 120upx;
-
-			.backTitle {
-				margin: 38rpx 44rpx;
-
-				image {
-					width: 60rpx;
-					height: 54rpx;
+			padding: 120rpx 10% 50rpx 10%;
+			.searchTop{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin: 40rpx 30rpx 0 30rpx;
+				.leftInput{
+					width: 70%;
+					height: 80rpx;
+					background: rgba(102,82,217,0.05);
+					border-radius: 56rpx;
+					input{
+						width: 100%;
+						height: 100%;
+						padding-left: 30rpx;
+					}
+				}
+				.rightBtn{
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					width: 25%;
+					height: 80rpx;
+					background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
+					border-radius: 56rpx;
+					image{
+						width: 30rpx;
+						height: 30rpx;
+						margin-right: 14rpx;
+					}
+					text{
+						font-family: Noto Sans, Noto Sans;
+						font-weight: 500;
+						font-size: 30rpx;
+						color: #FFFFFF;
+						margin-bottom: 10rpx;
+					}
 				}
 			}
-
-			.centerBox {
-				width: 60%;
-				margin: 40rpx auto 0;
-				// max-width: 750rpx;
-				// margin: 40rpx 30rpx 0 30rpx;
-				border-radius: 20rpx;
-				padding: 30rpx;
-				background-color: #fff;
-
-				.loadIcon {
-					display: flex;
-					justify-content: right;
-
-					image {
-						width: 32rpx;
-						height: 32rpx;
-					}
-				}
-
-				.lpBox {
-					margin-top: 20rpx;
-					padding-bottom: 40rpx;
-
-					.coinBox {
-						display: flex;
-						align-items: center;
-
-						.coinNameBox {
-							border-radius: 40rpx;
-							line-height: 65rpx;
-							display: flex;
-							justify-content: center;
-							margin-right: 25rpx;
-
-							.coinSmall {
-								display: flex;
-								align-items: center;
-
-								text {
-									color: #000;
-									font-size: 30rpx;
-									margin-right: 23rpx;
-									margin-right: 10rpx;
-								}
-
-								.slectIcon2 {
-									width: 42rpx;
-									height: 42rpx;
-									border-radius: 50%;
-								}
-
-								.slectIcon {
-									width: 42rpx;
-									height: 42rpx;
-								}
-							}
-						}
-
-						.coinMax {
-							width: 80rpx;
-							height: 45rpx;
-							line-height: 45rpx;
-							text-align: center;
-							border: 2rpx solid #3367D6;
-							color: #3367D6;
-							font-size: 24rpx;
-							font-weight: bold;
-							border-radius: 40rpx;
-							margin-right: 10rpx;
-						}
-					}
-
-					.inputToBox {
-						.blanceTitle {
-							display: flex;
-							justify-content: right;
-							color: #161616;
-							font-size: 24rpx;
-							margin-bottom: 11rpx;
-							margin-right: 40rpx;
-						}
-
-						.inputBody {
-							height: 169rpx;
-							background-color: rgba(80, 135, 252, 0.1);
-							border: 2rpx solid #3367D6;
-							border-radius: 30rpx;
-							padding-right: 45rpx;
-
-							input {
-								width: 100%;
-								height: 65%;
-								text-align: right;
-								font-size: 42rpx;
-								color: #3367D6;
-							}
-
-							.smallNumU {
-								width: 100%;
-								height: 35%;
-								text-align: right;
-								color: gray;
-								font-size: 28rpx;
-							}
-						}
-					}
-
-					.tipsText {
+			.webCenterBox{
+				display: flex;
+				justify-content: space-between;
+				.webLeft{
+					width: 60%;
+					.bannerBox{
+						padding: 0 30rpx;
 						margin: 30rpx 0;
-						padding-bottom: 60rpx;
-						font-family: Noto Sans SC, Noto Sans SC;
-						font-weight: 500;
-						font-size: 28rpx;
-						color: #6929C4;
-						border-bottom: 2rpx solid #3367D6;
 					}
-
-					.newToBox {
-						margin: 40rpx 0;
-
-						.textToTitle {
-							display: flex;
-							justify-content: center;
-							align-items: center;
-							color: #AF6EFF;
-							font-weight: bold;
+					.tranInfo{
+						padding: 30rpx;
+						margin: 40rpx 30rpx 0 30rpx;
+						background: #FFFFFF;
+						box-shadow: 0px 7rpx 35rpx rgba(88,86,218,0.2);
+						border-radius: 28rpx;
+						.infoTilte{
+							font-family: Noto Sans SC, Noto Sans SC;
+							font-weight: 500;
 							font-size: 30rpx;
-						}
-
-						.toRessBox {
-							.ressTitle {
-								display: flex;
-								justify-content: space-between;
-								align-items: center;
-
-								.titleOne {
-									color: #3367D6;
-									font-size: 30rpx;
-									font-weight: bold;
-								}
-
-								.titleCenter {
-									width: 2rpx;
-									height: 30rpx;
-									color: gray;
-									margin: 0 30rpx;
-								}
-
-								.titleRight {
-									color: #AF6EFF;
-									font-size: 34rpx;
-									font-weight: bold;
-								}
-							}
-
-							.inputToAddress {
-								height: 90rpx;
-								background-color: rgba(80, 135, 252, 0.1);
-								border: 2rpx solid #3367D6;
-								border-radius: 30rpx;
-								padding-left: 30rpx;
-								margin-top: 30rpx;
-
-								input {
-									width: 100%;
-									height: 100%;
-									text-align: left;
-									font-size: 35rpx;
-									color: #3367D6;
-								}
-							}
-						}
-					}
-
-					.SlippageBox {
-						margin-top: 40rpx;
-
-						.boxTitle {
-							font-family: Noto Sans SC, Noto Sans SC;
-							font-weight: 500;
-							font-size: 28rpx;
 							color: #161616;
 						}
-
-						.slipBox {
-							display: flex;
-							align-items: center;
-							margin-top: 30rpx;
-
-							.list {
-								width: 140rpx;
-								height: 65rpx;
-								line-height: 65rpx;
-								text-align: center;
-								border-radius: 40rpx;
-								font-size: 36rpx;
-								font-weight: bold;
-								margin-right: 40rpx;
-							}
-
-							.listActive {
-								background-color: rgba(51, 103, 214, 0.4);
-								color: #3367D6;
-							}
-
-							.listNoActive {
-								background-color: rgba(51, 103, 214, 0.4);
-								color: rgba(51, 103, 214, .3);
-							}
-
-							.list2 {
-								width: 140rpx;
-								height: 65rpx;
-								line-height: 65rpx;
-								text-align: center;
-								border-radius: 40rpx;
-								font-size: 36rpx;
-								font-weight: bold;
-								display: flex;
-								align-items: center;
-
-								input {
-									width: 100%;
-									height: 100%;
-									color: #3367D6;
-								}
-							}
-						}
-					}
-
-					.routerBox {
-						display: flex;
-						justify-content: space-between;
-						align-items: center;
-						margin-top: 50rpx;
-
-						.leftRou {
+						.smallText{
+							margin-top: 46rpx;
 							font-family: Noto Sans SC, Noto Sans SC;
 							font-weight: 500;
-							font-size: 28rpx;
-							color: #161616;
+							font-size: 30rpx;
+							color: #A8A8A8;
 						}
-
-						.rightRou {
+						.tokenIcon{
+							margin-top: 56rpx;
 							display: flex;
 							align-items: center;
-
-							text {
+							image{
+								width: 45rpx;
+								height: 45rpx;
+								margin-right: 14rpx;
+								border-radius: 50%;
+							}
+							text{
 								font-family: Noto Sans SC, Noto Sans SC;
 								font-weight: 500;
 								font-size: 28rpx;
-								color: #3367D6;
-							}
-
-							image {
-								width: 35rpx;
-								height: 35rpx;
+								color: #6929C4;
 							}
 						}
-					}
-
-					.centerIcon {
-						display: flex;
-						justify-content: center;
-						margin: 48rpx 0;
-
-						.changebox {
-							width: 36rpx;
-							height: 40rpx;
-							line-height: 40rpx;
-							text-align: center;
-							background-image: url('../../static/icon1.png');
-							background-size: 100% 100%;
-
-							image {
-								width: 27rpx;
-								height: 28rpx;
-							}
-						}
-					}
-
-					.btnGo {
-						display: flex;
-						justify-content: center;
-						margin-top: 80rpx;
-
-						.btn {
-							width: 638rpx;
-							height: 112rpx;
-							line-height: 112rpx;
-							text-align: center;
-							font-family: Noto Sans SC, Noto Sans SC;
-							font-weight: 600;
-							font-size: 28rpx;
-							background: rgba(115, 40, 228, 0.1);
-							color: #6433D6;
-							border-radius: 56rpx;
-						}
-
-						.btnNo {
-							width: 638rpx;
-							height: 112rpx;
-							line-height: 112rpx;
-							text-align: center;
-							font-family: Noto Sans SC, Noto Sans SC;
-							font-weight: 600;
-							font-size: 28rpx;
-							background: rgba(115, 40, 228, 0.1);
-							color: rad;
-							border-radius: 56rpx;
-						}
-					}
-
-					.infoGo {
-						display: flex;
-						justify-content: center;
-						color: #00dea1;
-						font-size: 30rpx;
-						margin-top: 20rpx;
 					}
 				}
-
-
+				.centerBox {
+					width: 35%;
+					margin: 30rpx auto 0;
+					// max-width: 750rpx;
+					// margin: 40rpx 30rpx 0 30rpx;
+					border-radius: 28rpx;
+					padding: 30rpx;
+					background-color: #fff;
+					box-shadow: 0px 7rpx 35rpx rgba(88,86,218,0.2);
+					.lpBox {
+						margin-top: 20rpx;
+						padding-bottom: 40rpx;
+						.formBox{
+							background: rgba(102,82,217,0.05);
+							border-radius: 28rpx;
+							padding: 30rpx;
+						}
+						.coinBox {
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							.fromText{
+								font-family: Noto Sans, Noto Sans;
+								font-weight: 500;
+								font-size: 30rpx;
+								color: #8A8A8A;
+							}
+							.selectNum{
+								display: flex;
+								align-items: center;
+								.coinMax {
+									width: 80rpx;
+									height: 42rpx;
+									color: rgba(102, 82, 217, .8);
+									border: 2px solid rgba(102, 82, 217, .8);
+									border-radius: 56rpx;
+									line-height: 42rpx;
+									text-align: center;
+									font-size: 24rpx;
+									font-weight: bold;
+									margin-right: 10rpx;
+								}
+							}
+						}
+				
+						.inputToBox {
+							.blanceTitle {
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+								margin-bottom: 11rpx;
+								.leftBlan{
+									color: #A8A8A8;
+									font-size: 28rpx;
+								}
+								.smallNumU {
+									text-align: right;
+									color: gray;
+									font-size: 28rpx;
+								}
+							}
+				
+							.inputBody {
+								height: 160rpx;
+								border-radius: 30rpx;
+								padding-right: 45rpx;
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+								.coinNameBox {
+									border-radius: 40rpx;
+									line-height: 65rpx;
+									display: flex;
+									justify-content: center;
+									margin-right: 25rpx;
+								
+									.coinSmall {
+										display: flex;
+										align-items: center;
+								
+										text {
+											color: #000;
+											font-size: 35rpx;
+											margin-right: 10rpx;
+										}
+								
+										.slectIcon2 {
+											width: 56rpx;
+											height: 56rpx;
+											border-radius: 50%;
+											margin-right: 10rpx;
+										}
+								
+										.slectIcon {
+											width: 42rpx;
+											height: 42rpx;
+										}
+									}
+								}
+								.inputRight{
+									width: 50%;
+									input {
+										width: 100%;
+										height: 65%;
+										text-align: right;
+										font-size: 42rpx;
+										color: #3367D6;
+									}
+															
+									
+								}
+							}
+						}
+				
+						.tipsText {
+							margin: 30rpx 0;
+							padding-bottom: 60rpx;
+							font-family: Noto Sans SC, Noto Sans SC;
+							font-weight: 500;
+							font-size: 28rpx;
+							color: #6929C4;
+							border-bottom: 2rpx solid #8D61DD;
+							display: flex;
+							align-items: center;
+							image{
+								width: 32rpx;
+								height: 32rpx;
+								margin-left: 10rpx;
+							}
+						}
+				
+						.newToBox {
+							margin: 40rpx 0;
+				
+							.textToTitle {
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								color: #AF6EFF;
+								font-weight: bold;
+								font-size: 30rpx;
+							}
+				
+							.toRessBox {
+								.ressTitle {
+									display: flex;
+									justify-content: space-between;
+									align-items: center;
+				
+									.titleOne {
+										color: #3367D6;
+										font-size: 30rpx;
+										font-weight: bold;
+									}
+				
+									.titleCenter {
+										width: 2rpx;
+										height: 30rpx;
+										color: gray;
+										margin: 0 30rpx;
+									}
+				
+									.titleRight {
+										color: #AF6EFF;
+										font-size: 34rpx;
+										font-weight: bold;
+									}
+								}
+				
+								.inputToAddress {
+									height: 90rpx;
+									background-color: rgba(80, 135, 252, 0.1);
+									border: 2rpx solid #3367D6;
+									border-radius: 30rpx;
+									padding-left: 30rpx;
+									margin-top: 30rpx;
+				
+									input {
+										width: 100%;
+										height: 100%;
+										text-align: left;
+										font-size: 35rpx;
+										color: #3367D6;
+									}
+								}
+							}
+						}
+				
+						.SlippageBox {
+							margin-top: 40rpx;
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							.boxTitle {
+								font-family: Noto Sans SC, Noto Sans SC;
+								font-weight: 500;
+								font-size: 28rpx;
+								color: #161616;
+							}
+				
+							.slipBox {
+								display: flex;
+								align-items: center;
+				
+								.list {
+									width: 90rpx;
+									height: 47rpx;
+									line-height: 47rpx;
+									text-align: center;
+									border-radius: 40rpx;
+									font-size: 25rpx;
+									font-weight: bold;
+									margin-right: 10rpx;
+								}
+				
+								.listActive {
+									background-color: #6652D9;
+									color: #FFFFFF;
+								}
+				
+								.listNoActive {
+									background-color: rgba(102,82,217,0.1);
+									color: rgba(102,82,217,0.6);
+								}
+				
+								.list2 {
+									width: 90rpx;
+									height: 47rpx;
+									line-height: 47rpx;
+									text-align: center;
+									border-radius: 40rpx;
+									font-size: 20rpx;
+									font-weight: bold;
+									display: flex;
+									align-items: center;
+				
+									input {
+										width: 100%;
+										height: 100%;
+										font-size: 25rpx;
+									}
+								}
+							}
+						}
+				
+						.routerBox {
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							margin-top: 50rpx;
+				
+							.leftRou {
+								font-family: Noto Sans SC, Noto Sans SC;
+								font-weight: 500;
+								font-size: 28rpx;
+								color: #161616;
+							}
+				
+							.rightRou {
+								display: flex;
+								align-items: center;
+				
+								text {
+									font-family: Noto Sans SC, Noto Sans SC;
+									font-weight: 500;
+									font-size: 28rpx;
+									color: #6652D9;
+								}
+				
+								image {
+									width: 35rpx;
+									height: 35rpx;
+								}
+							}
+						}
+				
+						.centerIcon {
+							display: flex;
+							justify-content: center;
+							margin: 48rpx 0;
+				
+							.changebox {
+								width: 36rpx;
+								height: 40rpx;
+								line-height: 40rpx;
+								text-align: center;
+								background-image: url('../../static/icon1.png');
+								background-size: 100% 100%;
+				
+								image {
+									width: 27rpx;
+									height: 28rpx;
+								}
+							}
+						}
+				
+						.btnGo {
+							display: flex;
+							justify-content: center;
+							margin-top: 80rpx;
+				
+							.btn {
+								width: 638rpx;
+								height: 112rpx;
+								line-height: 112rpx;
+								text-align: center;
+								font-family: Noto Sans SC, Noto Sans SC;
+								font-weight: 600;
+								font-size: 28rpx;
+								background: linear-gradient( 270deg, #6652D9 0%, #E283E7 50%, #F4CDCD 100%);
+								color: #fff;
+								border-radius: 56rpx;
+							}
+				
+							.btnNo {
+								width: 638rpx;
+								height: 112rpx;
+								line-height: 112rpx;
+								text-align: center;
+								font-family: Noto Sans SC, Noto Sans SC;
+								font-weight: 600;
+								font-size: 28rpx;
+								background: rgba(115, 40, 228, 0.1);
+								color: rad;
+								border-radius: 56rpx;
+							}
+						}
+				
+						.infoGo {
+							display: flex;
+							justify-content: center;
+							color: #00dea1;
+							font-size: 30rpx;
+							margin-top: 20rpx;
+						}
+					}
+				}
+			}
+			
+			.noticeBox{
+				padding: 25rpx 28rpx;
+				margin: 30rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				background: linear-gradient( 270deg, rgba(244,205,205,0.63) 0%, #E283E7 50%, rgba(102,82,217,0.53) 100%);
+				.leftNotice{
+					font-family: Noto Sans, Noto Sans;
+					font-weight: 500;
+					font-size: 25rpx;
+					color: #FFFFFF;
+					white-space: nowrap; /* 防止文本换行 */
+					overflow: hidden;    /* 隐藏溢出的内容 */
+					text-overflow: ellipsis;
+				}
+				.rightBtn{
+					padding: 0 10rpx;
+					height: 40rpx;
+					line-height: 40rpx;
+					text-align: center;
+					border-radius: 35rpx;
+					border: 2px solid #FFFFFF;
+					font-family: Noto Sans, Noto Sans;
+					font-weight: 500;
+					font-size: 25rpx;
+					color: #FFFFFF;
+				}
+			}
+			.footerBox{
+				padding: 112rpx 28rpx;
+				margin: 30rpx;
+				background: #FFFFFF;
+				box-shadow: 0px 7rpx 35rpx rgba(88,86,218,0.2);
+				border-radius: 28rpx;
+				text-align: center;
+				.titleN{
+					font-family: Noto Sans SC, Noto Sans SC;
+					font-weight: 700;
+					font-size: 50rpx;
+					color: #000000;
+					padding: 0 30rpx;
+				}
+				.smallTitle{
+					margin-top: 30rpx;
+					font-family: Noto Sans SC, Noto Sans SC;
+					font-weight: 400;
+					font-size: 28rpx;
+					color: #000000;
+				}
+				.parBox{
+					margin-top: 112rpx;
+					.list{
+						display: flex;
+						justify-content: space-evenly;
+						align-items: center;
+						margin-bottom: 117rpx;
+						image{
+							width: 165rpx;
+							height: 60rpx;
+						}
+					}
+				}
+			}
+			.shareEnd{
+				margin: 28rpx 30rpx 28rpx 30rpx;
+				padding: 56rpx 30%;
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				.endBg{
+					width: 84rpx;
+					height: 84rpx;
+					line-height: 114rpx;
+					text-align: center;
+					background: linear-gradient( 270deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 100%);
+					border-radius: 56rpx;
+					image{
+						width: 56rpx;
+						height: 56rpx;
+					}
+				}
 			}
 		}
 
@@ -1432,7 +1747,7 @@
 						height: 100rpx;
 						line-height: 100rpx;
 						text-align: center;
-						background: linear-gradient(90deg, #AF6EFF 0%, #8D60FF 100%);
+						background: linear-gradient( 270deg, #6652D9 0%, #E283E7 50%, #F4CDCD 100%);
 						border-radius: 42rpx;
 						color: #fff;
 					}
@@ -1457,337 +1772,525 @@
 			box-sizing: border-box;
 			position: relative;
 			padding-top: 120upx;
-
-			.backTitle {
-				margin: 38rpx 44rpx;
-
-				image {
-					width: 60rpx;
-					height: 54rpx;
+			.searchTop{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin: 40rpx 30rpx 0 30rpx;
+				.leftInput{
+					width: 70%;
+					height: 80rpx;
+					background: rgba(102,82,217,0.05);
+					border-radius: 56rpx;
+					input{
+						width: 100%;
+						height: 100%;
+						padding-left: 30rpx;
+					}
+				}
+				.rightBtn{
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					width: 25%;
+					height: 80rpx;
+					background: linear-gradient( 270deg, #F4CDCD 0%, #E283E7 43%, #6652D9 100%);
+					border-radius: 56rpx;
+					image{
+						width: 30rpx;
+						height: 30rpx;
+						margin-right: 14rpx;
+					}
+					text{
+						font-family: Noto Sans, Noto Sans;
+						font-weight: 500;
+						font-size: 30rpx;
+						color: #FFFFFF;
+						margin-bottom: 10rpx;
+					}
 				}
 			}
-
-			.centerBox {
-				max-width: 750rpx;
-				margin: 40rpx 30rpx 0 30rpx;
-				border-radius: 20rpx;
-				padding: 30rpx;
-				background-color: #fff;
-
-				.loadIcon {
-					display: flex;
-					justify-content: right;
-
-					image {
-						width: 32rpx;
-						height: 32rpx;
-					}
-				}
-
-				.lpBox {
-					margin-top: 20rpx;
-					padding-bottom: 40rpx;
-
-					.coinBox {
-						display: flex;
-						align-items: center;
-
-						.coinNameBox {
-							border-radius: 40rpx;
-							line-height: 65rpx;
-							display: flex;
-							justify-content: center;
-							margin-right: 25rpx;
-
-							.coinSmall {
-								display: flex;
-								align-items: center;
-
-								text {
-									color: #000;
-									font-size: 30rpx;
-									margin-right: 23rpx;
-									margin-right: 10rpx;
-								}
-
-								.slectIcon2 {
-									width: 42rpx;
-									height: 42rpx;
-									border-radius: 50%;
-								}
-
-								.slectIcon {
-									width: 42rpx;
-									height: 42rpx;
-								}
-							}
-						}
-
-						.coinMax {
-							width: 80rpx;
-							height: 45rpx;
-							line-height: 45rpx;
-							text-align: center;
-							border: 2rpx solid #3367D6;
-							color: #3367D6;
-							font-size: 24rpx;
-							font-weight: bold;
-							border-radius: 40rpx;
-							margin-right: 10rpx;
-						}
-					}
-
-					.inputToBox {
-						.blanceTitle {
-							display: flex;
-							justify-content: right;
-							color: #161616;
-							font-size: 24rpx;
-							margin-bottom: 11rpx;
-							margin-right: 40rpx;
-						}
-
-						.inputBody {
-							height: 169rpx;
-							background-color: rgba(80, 135, 252, 0.1);
-							border: 2rpx solid #3367D6;
-							border-radius: 30rpx;
-							padding-right: 45rpx;
-
-							input {
-								width: 100%;
-								height: 65%;
-								text-align: right;
-								font-size: 42rpx;
-								color: #3367D6;
-							}
-
-							.smallNumU {
-								width: 100%;
-								height: 35%;
-								text-align: right;
-								color: gray;
-								font-size: 28rpx;
-							}
-						}
-					}
-
-					.tipsText {
+			.webCenterBox{
+				.webLeft{
+					.bannerBox{
+						padding: 0 30rpx;
 						margin: 30rpx 0;
-						padding-bottom: 60rpx;
-						font-family: Noto Sans SC, Noto Sans SC;
-						font-weight: 500;
-						font-size: 28rpx;
-						color: #6929C4;
-						border-bottom: 2rpx solid #3367D6;
 					}
-
-					.newToBox {
-						margin: 40rpx 0;
-
-						.textToTitle {
-							display: flex;
-							justify-content: center;
-							align-items: center;
-							color: #AF6EFF;
-							font-weight: bold;
+					.tranInfo{
+						padding: 30rpx;
+						margin: 40rpx 30rpx 0 30rpx;
+						background: #FFFFFF;
+						box-shadow: 0px 7rpx 35rpx rgba(88,86,218,0.2);
+						border-radius: 28rpx;
+						.infoTilte{
+							font-family: Noto Sans SC, Noto Sans SC;
+							font-weight: 500;
 							font-size: 30rpx;
-						}
-
-						.toRessBox {
-							.ressTitle {
-								display: flex;
-								justify-content: space-between;
-								align-items: center;
-
-								.titleOne {
-									color: #3367D6;
-									font-size: 30rpx;
-									font-weight: bold;
-								}
-
-								.titleCenter {
-									width: 2rpx;
-									height: 30rpx;
-									color: gray;
-									margin: 0 30rpx;
-								}
-
-								.titleRight {
-									color: #AF6EFF;
-									font-size: 34rpx;
-									font-weight: bold;
-								}
-							}
-
-							.inputToAddress {
-								height: 90rpx;
-								background-color: rgba(80, 135, 252, 0.1);
-								border: 2rpx solid #3367D6;
-								border-radius: 30rpx;
-								padding-left: 30rpx;
-								margin-top: 30rpx;
-
-								input {
-									width: 100%;
-									height: 100%;
-									text-align: left;
-									font-size: 35rpx;
-									color: #3367D6;
-								}
-							}
-						}
-					}
-
-					.SlippageBox {
-						margin-top: 40rpx;
-
-						.boxTitle {
-							font-family: Noto Sans SC, Noto Sans SC;
-							font-weight: 500;
-							font-size: 28rpx;
 							color: #161616;
 						}
-
-						.slipBox {
-							display: flex;
-							align-items: center;
-							margin-top: 30rpx;
-
-							.list {
-								width: 140rpx;
-								height: 65rpx;
-								line-height: 65rpx;
-								text-align: center;
-								border-radius: 40rpx;
-								font-size: 36rpx;
-								font-weight: bold;
-								margin-right: 40rpx;
-							}
-
-							.listActive {
-								background-color: rgba(51, 103, 214, 0.4);
-								color: #3367D6;
-							}
-
-							.listNoActive {
-								background-color: rgba(51, 103, 214, 0.4);
-								color: rgba(51, 103, 214, .3);
-							}
-
-							.list2 {
-								width: 140rpx;
-								height: 65rpx;
-								line-height: 65rpx;
-								text-align: center;
-								border-radius: 40rpx;
-								font-size: 36rpx;
-								font-weight: bold;
-								display: flex;
-								align-items: center;
-
-								input {
-									width: 100%;
-									height: 100%;
-									color: #3367D6;
-								}
-							}
-						}
-					}
-
-					.routerBox {
-						display: flex;
-						justify-content: space-between;
-						align-items: center;
-						margin-top: 50rpx;
-
-						.leftRou {
+						.smallText{
+							margin-top: 46rpx;
 							font-family: Noto Sans SC, Noto Sans SC;
 							font-weight: 500;
-							font-size: 28rpx;
-							color: #161616;
+							font-size: 30rpx;
+							color: #A8A8A8;
 						}
-
-						.rightRou {
+						.tokenIcon{
+							margin-top: 56rpx;
 							display: flex;
 							align-items: center;
-
-							text {
+							image{
+								width: 45rpx;
+								height: 45rpx;
+								margin-right: 14rpx;
+								border-radius: 50%;
+							}
+							text{
 								font-family: Noto Sans SC, Noto Sans SC;
 								font-weight: 500;
 								font-size: 28rpx;
-								color: #3367D6;
-							}
-
-							image {
-								width: 35rpx;
-								height: 35rpx;
+								color: #6929C4;
 							}
 						}
-					}
-
-					.centerIcon {
-						display: flex;
-						justify-content: center;
-						margin: 48rpx 0;
-
-						.changebox {
-							width: 36rpx;
-							height: 40rpx;
-							line-height: 40rpx;
-							text-align: center;
-							background-image: url('../../static/icon1.png');
-							background-size: 100% 100%;
-
-							image {
-								width: 27rpx;
-								height: 28rpx;
-							}
-						}
-					}
-
-					.btnGo {
-						display: flex;
-						justify-content: center;
-						margin-top: 80rpx;
-
-						.btn {
-							width: 638rpx;
-							height: 112rpx;
-							line-height: 112rpx;
-							text-align: center;
-							font-family: Noto Sans SC, Noto Sans SC;
-							font-weight: 600;
-							font-size: 28rpx;
-							background: rgba(115, 40, 228, 0.1);
-							color: #6433D6;
-							border-radius: 56rpx;
-						}
-
-						.btnNo {
-							width: 638rpx;
-							height: 112rpx;
-							line-height: 112rpx;
-							text-align: center;
-							font-family: Noto Sans SC, Noto Sans SC;
-							font-weight: 600;
-							font-size: 28rpx;
-							background: rgba(115, 40, 228, 0.1);
-							color: red;
-							border-radius: 56rpx;
-						}
-					}
-
-					.infoGo {
-						display: flex;
-						justify-content: center;
-						color: #00dea1;
-						font-size: 30rpx;
-						margin-top: 20rpx;
 					}
 				}
-
-
+				.centerBox {
+					max-width: 750rpx;
+					margin: 40rpx 30rpx 0 30rpx;
+					border-radius: 28rpx;
+					padding: 30rpx;
+					background-color: #fff;
+					box-shadow: 0px 7rpx 35rpx rgba(88,86,218,0.2);
+				
+					.lpBox {
+						margin-top: 20rpx;
+						padding-bottom: 40rpx;
+						.formBox{
+							background: rgba(102,82,217,0.05);
+							border-radius: 28rpx;
+							padding: 30rpx;
+							.coinBox {
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+								.fromText{
+									font-family: Noto Sans, Noto Sans;
+									font-weight: 500;
+									font-size: 30rpx;
+									color: #8A8A8A;
+								}
+								.selectNum{
+									display: flex;
+									align-items: center;
+									.coinMax {
+										width: 80rpx;
+										height: 42rpx;
+										color: rgba(102, 82, 217, .8);
+										border: 2px solid rgba(102, 82, 217, .8);
+										border-radius: 56rpx;
+										line-height: 42rpx;
+										text-align: center;
+										font-size: 24rpx;
+										font-weight: bold;
+										margin-right: 10rpx;
+									}
+								}
+								
+							}
+							
+							.inputToBox {
+								.blanceTitle {
+									display: flex;
+									justify-content: space-between;
+									align-items: center;
+									margin-bottom: 11rpx;
+									.leftBlan{
+										color: #A8A8A8;
+										font-size: 28rpx;
+									}
+									.smallNumU {
+										text-align: right;
+										color: gray;
+										font-size: 28rpx;
+									}
+								}
+							
+								.inputBody {
+									height: 160rpx;
+									border-radius: 30rpx;
+									padding-right: 45rpx;
+									display: flex;
+									justify-content: space-between;
+									align-items: center;
+									.coinNameBox {
+										border-radius: 40rpx;
+										line-height: 65rpx;
+										display: flex;
+										justify-content: center;
+										margin-right: 25rpx;
+															
+										.coinSmall {
+											display: flex;
+											align-items: center;
+															
+											text {
+												color: #000;
+												font-size: 35rpx;
+												margin-right: 10rpx;
+											}
+															
+											.slectIcon2 {
+												width: 56rpx;
+												height: 56rpx;
+												border-radius: 50%;
+												margin-right: 10rpx;
+											}
+															
+											.slectIcon {
+												width: 42rpx;
+												height: 42rpx;
+											}
+										}
+									}
+									.inputRight{
+										width: 50%;
+										input {
+											width: 100%;
+											height: 65%;
+											text-align: right;
+											font-size: 42rpx;
+											color: #3367D6;
+										}
+																
+										
+									}
+									
+								}
+							}
+						}
+						
+				
+						.tipsText {
+							margin: 30rpx 0;
+							padding-bottom: 60rpx;
+							font-family: Noto Sans SC, Noto Sans SC;
+							font-weight: 500;
+							font-size: 28rpx;
+							color: #6929C4;
+							border-bottom: 2rpx solid #8D61DD;
+							display: flex;
+							align-items: center;
+							image{
+								width: 32rpx;
+								height: 32rpx;
+								margin-left: 10rpx;
+							}
+						}
+				
+						.newToBox {
+							margin: 40rpx 0;
+				
+							.textToTitle {
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								color: #AF6EFF;
+								font-weight: bold;
+								font-size: 30rpx;
+							}
+				
+							.toRessBox {
+								.ressTitle {
+									display: flex;
+									justify-content: space-between;
+									align-items: center;
+				
+									.titleOne {
+										color: #3367D6;
+										font-size: 30rpx;
+										font-weight: bold;
+									}
+				
+									.titleCenter {
+										width: 2rpx;
+										height: 30rpx;
+										color: gray;
+										margin: 0 30rpx;
+									}
+				
+									.titleRight {
+										color: #AF6EFF;
+										font-size: 34rpx;
+										font-weight: bold;
+									}
+								}
+				
+								.inputToAddress {
+									height: 90rpx;
+									background-color: rgba(80, 135, 252, 0.1);
+									border: 2rpx solid #3367D6;
+									border-radius: 30rpx;
+									padding-left: 30rpx;
+									margin-top: 30rpx;
+				
+									input {
+										width: 100%;
+										height: 100%;
+										text-align: left;
+										font-size: 35rpx;
+										color: #3367D6;
+									}
+								}
+							}
+						}
+				
+						.SlippageBox {
+							margin-top: 40rpx;
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							.boxTitle {
+								font-family: Noto Sans SC, Noto Sans SC;
+								font-weight: 500;
+								font-size: 28rpx;
+								color: #161616;
+							}
+				
+							.slipBox {
+								display: flex;
+								align-items: center;
+				
+								.list {
+									width: 90rpx;
+									height: 47rpx;
+									line-height: 47rpx;
+									text-align: center;
+									border-radius: 40rpx;
+									font-size: 25rpx;
+									font-weight: bold;
+									margin-right: 10rpx;
+								}
+				
+								.listActive {
+									background-color: #6652D9;
+									color: #FFFFFF;
+								}
+								
+								.listNoActive {
+									background-color: rgba(102,82,217,0.1);
+									color: rgba(102,82,217,0.6);
+								}
+				
+								.list2 {
+									width: 90rpx;
+									height: 47rpx;
+									line-height: 47rpx;
+									text-align: center;
+									border-radius: 40rpx;
+									font-size: 20rpx;
+									font-weight: bold;
+									display: flex;
+									align-items: center;
+				
+									input {
+										width: 100%;
+										height: 100%;
+										font-size: 25rpx;
+									}
+								}
+							}
+						}
+				
+						.routerBox {
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							margin-top: 50rpx;
+				
+							.leftRou {
+								font-family: Noto Sans SC, Noto Sans SC;
+								font-weight: 500;
+								font-size: 28rpx;
+								color: #161616;
+							}
+				
+							.rightRou {
+								display: flex;
+								align-items: center;
+				
+								text {
+									font-family: Noto Sans SC, Noto Sans SC;
+									font-weight: 500;
+									font-size: 28rpx;
+									color: #6652D9;
+								}
+				
+								image {
+									width: 35rpx;
+									height: 35rpx;
+								}
+							}
+						}
+				
+						.centerIcon {
+							display: flex;
+							justify-content: center;
+							margin: 48rpx 0;
+				
+							.changebox {
+								width: 36rpx;
+								height: 40rpx;
+								line-height: 40rpx;
+								text-align: center;
+								background-image: url('../../static/icon1.png');
+								background-size: 100% 100%;
+				
+								image {
+									width: 27rpx;
+									height: 28rpx;
+								}
+							}
+						}
+				
+						.btnGo {
+							display: flex;
+							justify-content: center;
+							margin-top: 80rpx;
+				
+							.btn {
+								width: 638rpx;
+								height: 112rpx;
+								line-height: 112rpx;
+								text-align: center;
+								font-family: Noto Sans SC, Noto Sans SC;
+								font-weight: 600;
+								font-size: 28rpx;
+								background: linear-gradient( 270deg, #6652D9 0%, #E283E7 50%, #F4CDCD 100%);
+								color: #fff;
+								border-radius: 56rpx;
+							}
+				
+							.btnNo {
+								width: 638rpx;
+								height: 112rpx;
+								line-height: 112rpx;
+								text-align: center;
+								font-family: Noto Sans SC, Noto Sans SC;
+								font-weight: 600;
+								font-size: 28rpx;
+								background: rgba(115, 40, 228, 0.1);
+								color: red;
+								border-radius: 56rpx;
+							}
+						}
+				
+						.infoGo {
+							display: flex;
+							justify-content: center;
+							color: #00dea1;
+							font-size: 30rpx;
+							margin-top: 20rpx;
+						}
+					}
+				}
+			}
+			
+			.noticeBox{
+				padding: 25rpx 28rpx;
+				margin: 30rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				background: linear-gradient( 270deg, rgba(102,82,217,0.53) 0%, #E283E7 50%, rgba(244,205,205,0.63) 100%);
+				.leftNotice{
+					font-family: Noto Sans, Noto Sans;
+					font-weight: 500;
+					font-size: 26rpx;
+					color: #FFFFFF;
+					white-space: nowrap; /* 防止文本换行 */
+					overflow: hidden;    /* 隐藏溢出的内容 */
+					text-overflow: ellipsis;
+					width: 80%;
+				}
+				.rightBtn{
+					padding: 0 10rpx;
+					height: 40rpx;
+					line-height: 40rpx;
+					text-align: center;
+					border-radius: 35rpx;
+					border: 2px solid #FFFFFF;
+					font-family: Noto Sans, Noto Sans;
+					font-weight: 500;
+					font-size: 25rpx;
+					color: #FFFFFF;
+				}
+			}
+			.footerBox{
+				padding: 112rpx 28rpx;
+				margin: 30rpx;
+				background: #FFFFFF;
+				box-shadow: 0px 7rpx 35rpx rgba(88,86,218,0.2);
+				border-radius: 28rpx;
+				text-align: center;
+				.titleN{
+					font-family: Noto Sans SC, Noto Sans SC;
+					font-weight: 700;
+					font-size: 49rpx;
+					color: #000000;
+					padding: 0 30rpx;
+					position: relative;
+					z-index: 9;
+					.lineStyle{
+						position: absolute;
+						transform: translate(-50%,-50%);
+						left: 50%;
+						bottom: -10%;
+						width: 217rpx;
+						height: 26rpx;
+						background: linear-gradient( 270deg, #6652D9 0%, #E283E7 50%, #F4CDCD 100%);
+						border-radius: 56rpx;
+						z-index: -1;
+					}
+				}
+				.smallTitle{
+					margin-top: 30rpx;
+					font-family: Noto Sans SC, Noto Sans SC;
+					font-weight: 400;
+					font-size: 28rpx;
+					color: #000000;
+				}
+				.parBox{
+					margin-top: 112rpx;
+					.list{
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						margin-bottom: 117rpx;
+						image{
+							width: 145rpx;
+							height: 50rpx;
+						}
+					}
+				}
+			}
+			.shareEnd{
+				margin: 28rpx 30rpx 28rpx 30rpx;
+				padding: 56rpx;
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				.endBg{
+					width: 84rpx;
+					height: 84rpx;
+					line-height: 114rpx;
+					text-align: center;
+					background: linear-gradient( 270deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 100%);
+					border-radius: 56rpx;
+					image{
+						width: 56rpx;
+						height: 56rpx;
+					}
+				}
 			}
 		}
 
@@ -1886,7 +2389,7 @@
 						height: 100rpx;
 						line-height: 100rpx;
 						text-align: center;
-						background: linear-gradient(90deg, #AF6EFF 0%, #8D60FF 100%);
+						background: linear-gradient( 270deg, #6652D9 0%, #E283E7 50%, #F4CDCD 100%);
 						border-radius: 42rpx;
 						color: #fff;
 					}

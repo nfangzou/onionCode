@@ -19,7 +19,12 @@ async function test(poolNftContractId, addressA, uName) {
 
 	const usePool = [];
 	usePool.push({"ft_a_amount":poolUse.ft_a_amount,"ft_lp_amount":poolUse.ft_lp_amount,"tbc_amount":poolUse.tbc_amount,"contractName":uName,"ftDecimal":FTA.decimal,"FTContract":FTA.contractTxid,"poolContract":poolNftContractId,"ftlpCodeHash":ftlpCodeHash})
-//     console.log(ftlpCodeHash);
+    
+	// console.log(uName);
+	// console.log(poolUse.ft_lp_amount)
+	// console.log(poolUse.ft_a_amount)
+	// console.log(poolUse.tbc_amount)
+
 	return usePool;
 }
 
