@@ -11,6 +11,9 @@
 				<text>{{$t('newIndex1')}}</text>
 			</view>
 		</view>
+		<view class="webView">
+			<web-view src="/hybrid/html/local.html" style="width: 100%; height: 500upx;"></web-view>
+		</view>
 		<view class="webCenterBox">
 			<view class="webLeft">
 				<view class="bannerBox">
@@ -34,6 +37,7 @@
 					</view>
 				</view>
 			</view>
+			
 			<view class="centerBox">
 				<view class="lpBox">
 					<view class="formBox">
@@ -2404,5 +2408,12 @@
 			width: 60rpx;
 			height: 60rpx;
 		}
+	}
+	.webView{
+		// height: 400upx;
+		position: relative;
+		height: 600upx;
+		background-color: red;
+		
 	}
 </style>
