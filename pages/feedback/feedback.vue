@@ -199,8 +199,8 @@
 	@media all and (min-width: 700px) and (max-width: 2880px){
 		.content {
 			width: 100%;
-			height: auto;
-			// min-height: 100vh;
+			// height: auto;
+			min-height: 100vh;
 			box-sizing: border-box;
 			position: relative;
 			padding-bottom: 30upx;
@@ -222,7 +222,7 @@
 				background-color: #fff;
 			// margin: 40rpx 30rpx 0 30rpx;
 				border: 2rpx solid #e5e5e5;
-				border-radius: 20rpx;
+				border-radius: 30rpx;
 				.bodyList{
 					padding: 0 28rpx;
 				}

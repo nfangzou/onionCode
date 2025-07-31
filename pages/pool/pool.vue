@@ -656,7 +656,7 @@
 							color: #3367D6;
 							font-size: 12px;
 							font-weight: bold;
-							border-radius: 20px;
+							border-radius: 50rpx
 						}
 					}
 					.poolName{
@@ -885,7 +885,7 @@
 							color: #3367D6;
 							font-size: 30rpx;
 							font-weight: bold;
-							border-radius: 40rpx;
+							border-radius: 50%;
 						}
 					}
 					.poolName{

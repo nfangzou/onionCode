@@ -81,6 +81,42 @@
 				</view>
 				
 			</view>
+			<view class="coinSetBody">
+				<view class="bigTilte">
+					LP分红
+				</view>
+				<view class="smallTitle">
+					{{$t('pool9_1')}}：{{nowPoolData.ft_lp_balance/Math.pow(10, pooInfoArr.ftDecimal)}}
+				</view>
+				<view class="boxInfo">
+					<view class="infoCoinNum" style="margin-bottom: 20rpx;">
+						<view class="numLeft">
+							<image src="/static/TBC.png" mode=""></image>
+							<text>TBC</text>
+						</view>
+						<view class="numRight">
+							{{nowPoolData.tbc_balance/Math.pow(10, 6)}}
+						</view>
+					</view>
+					<view class="infoCoinNum">
+						<view class="numLeft">
+							<image :src="pooInfoArr.contractName == 'SATOSHI'?'https://dapp.onionswap.info/SATOSHI.png':'https://dapp.onionswap.info/logo.png'" mode=""></image>
+							<text>{{pooInfoArr.contractName}}</text>
+						</view>
+						<view class="numRight">
+							{{nowPoolData.ft_a_balance/Math.pow(10, pooInfoArr.ftDecimal)}}
+						</view>
+					</view>
+				</view>
+				<view class="btnBox">
+					<view class="btnTwo" @tap="">
+						
+					</view>
+					<view class="btnOne" @tap="">
+						
+					</view>
+				</view>
+			</view>
 			<view class="titleEnd">
 				{{$t('pool12')}}
 			</view>
